@@ -31,7 +31,7 @@ Trust[Alice] : credit 100  // <- Distribution`
 ```
 where `A[k]` means a key `k` in the database of account `A`. 
 
-### `retrieveBalance(acct, key?)
+### `retrieveBalance(acct, key?)`
 
 Return the balance of a given account. For example, if I want to know how much is in Alice's trust
 account, I would call:
