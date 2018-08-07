@@ -26,8 +26,8 @@ Note that the names here are actually symbols representing keys.
 Internally some calls like this are written to the database:
 
 ```
-Distribution : debit  100  // -> Trust[Alice]`
-Trust[Alice] : credit 100  // <- Distribution`
+Distribution : debit  100  // -> Trust[Alice]
+Trust[Alice] : credit 100  // <- Distribution
 ```
 where `A[k]` means a key `k` in the database of account `A`. 
 
@@ -39,4 +39,14 @@ account, I would call:
 `retrieveBalance(Trust, Alice)`
 
 recalling again that `Trust` and `Alice` merely are symbols for long keys.
+
+### `retrieveTransactions(acct, key?, limit?)`
+
+Return the last `limit` transactions executed in the given account. For example, if I want to know
+the last 5 transactions in the Distrubtion account, I would call:
+
+`retrieveTransactions(Distribution, null, 5)`
+
+recalling again that `Distribution` is merely a symbol for long keys.
+
 
