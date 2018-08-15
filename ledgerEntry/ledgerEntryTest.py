@@ -73,6 +73,7 @@ def setOwnerKeys():
     wallet.ownerPrivateKey = key
     wallet.ownerPublicKey = key2
     print('Owner keys set')
+    print(wallet.ownerPrivateKey)
 
 def setActiveKeys():
     out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key"])
@@ -80,9 +81,10 @@ def setActiveKeys():
     key = key[:-67]
     key2 = out[77:]
     key2 = key2[:-1]
-    wallet.activePrivateKey = key
-    wallet.activePublicKey = key2
+    wallet.activePrivateKey = '5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz'
+    wallet.activePublicKey = 'EOS8FhYPgnTXoSot5a16CxhcCSmaepvEY93D9WYgb16tB5QxAhDcc'
     print('Active keys set')
+    print(wallet.activePrivateKey)
 
 def importKeys():
     out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.ownerPrivateKey])
@@ -105,7 +107,8 @@ def setContractSteps():
         out = 'Cannot set contract steps'
     print(str(out))
 
-def rcrdtrf():
+
+def setupContract():
     flushWallets()
     createEosioWallet()
     wallet.name = 'test'
@@ -117,12 +120,27 @@ def rcrdtrf():
     createAccount()
     order.contract = os.environ['HOME'] + '/ledger/ledgerEntry/'
     setContractSteps()
+
+def rcrdtrf():
     object = '["test","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
     out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
     print(str(out))
 
 def getrcrd():
     out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'getrcrd', '["EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN"]' , '-p', account.name + '@active'])
+    print(str(out))
+
+def testNullFromKey():
+    object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
+    print(str(out))
+
+def testMultipleEntries():
+    object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    object2 = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 51]'
+    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
+    print(str(out))
+    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object2, '-p', account.name + '@active'])
     print(str(out))
 
 def createEosioWallet():
@@ -169,7 +187,10 @@ if __name__ == '__main__':
     wallet = Wallet()
     blockchain = BlockChain()
     order = Order()
-    rcrdtrf()
-    getrcrd()
+    setupContract()
+    #rcrdtrf()
+    #testNullFromKey()
+    #testMultipleEntries()
+    #getrcrd()
 
 
