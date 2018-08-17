@@ -38,8 +38,6 @@ class Ledger : public contract {
                                         p.amount = amount;
                                       });
       };
-
-
   private:
 
       /// @abi table

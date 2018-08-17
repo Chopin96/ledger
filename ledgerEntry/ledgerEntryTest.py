@@ -118,7 +118,7 @@ def setupContract():
     importKeys()
     account.name = 'test'
     createAccount()
-    order.contract = os.environ['HOME'] + '/ledger/ledgerEntry/'
+    order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/ledgerEntry/'
     setContractSteps()
 
 def rcrdtrf():
