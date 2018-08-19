@@ -65,7 +65,7 @@ class Order():
         self.contractAccountName = ""
 
 def setOwnerKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key"])
+    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
     key = out[13:]
     key = key[:-67]
     key2 = out[77:]
@@ -76,7 +76,7 @@ def setOwnerKeys():
     print(wallet.ownerPrivateKey)
 
 def setActiveKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key"])
+    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
     key = out[13:]
     key = key[:-67]
     key2 = out[77:]
@@ -96,7 +96,7 @@ def createWallet(name):
     walletDirectory = os.environ['HOME'] + '/eosio-wallet'
     if not os.path.exists(walletDirectory):
         os.makedirs(walletDirectory)
-    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name])
+    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--to-console'])
     print(str(out))
 
 def setContractSteps():
@@ -118,7 +118,7 @@ def setupContract():
     importKeys()
     account.name = 'test'
     createAccount()
-    order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/ledgerEntry/'
+    order.contract = os.environ['HOME'] + '/ledger/ledgerEntry/'
     setContractSteps()
 
 def rcrdtrf():
