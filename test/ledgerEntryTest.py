@@ -17,9 +17,11 @@ os.environ['EOS_NODEOS'] = "/usr/local/eosio/bin/nodeos"
 os.environ['EOS_KEOSD'] = "/usr/local/eosio/bin/keosd"
 os.environ['CLEOS'] = "/usr/local/eosio/bin/cleos"
 
+
 class BlockChain():
     def __init__(self):
-        self.producer = "https://api.eosnewyork.io:443"
+        self.producer = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8888"
+        #self.producer = "http://127.0.0.1:8888"
 
 class Account():
     def __init__(self):
@@ -31,6 +33,7 @@ class Account():
         self.cpu = ""
         self.bandwidth = ""
         self.ram = ""
+
 
 class Wallet():
     def __init__(self):
@@ -44,6 +47,7 @@ class Wallet():
     def erasePrivateKeys(self):
         self.ownerPrivateKey = ""
         self.activePrivateKey = ""
+
 
 class Order():
 
@@ -64,6 +68,7 @@ class Order():
         self.currency = ""
         self.contractAccountName = ""
 
+
 def setOwnerKeys():
     out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
     key = out[13:]
@@ -74,6 +79,7 @@ def setOwnerKeys():
     wallet.ownerPublicKey = key2
     print('Owner keys set')
     print(wallet.ownerPrivateKey)
+
 
 def setActiveKeys():
     out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
@@ -86,11 +92,15 @@ def setActiveKeys():
     print('Active keys set')
     print(wallet.activePrivateKey)
 
+
 def importKeys():
-    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.ownerPrivateKey])
-    out1 = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.activePrivateKey])
+    out = subprocess.check_output(
+        ['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.ownerPrivateKey])
+    out1 = subprocess.check_output(
+        ['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.activePrivateKey])
     wallet.erasePrivateKeys()
     print('Keys imported to wallet')
+
 
 def createWallet(name):
     walletDirectory = os.environ['HOME'] + '/eosio-wallet'
@@ -99,14 +109,17 @@ def createWallet(name):
     out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--to-console'])
     print(str(out))
 
+
 def setContractSteps():
     out = ''
     try:
-        out = subprocess.check_output([os.environ['CLEOS'], 'set', 'contract', account.name, order.contract, '-p', account.name])
+        out = subprocess.check_output(
+            [os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'contract', account.name, order.contract, '-p',
+             account.name])
     except:
         out = 'Cannot set contract steps'
     print(str(out))
-
+    print('set contract steps')
 
 def setupContract():
     flushWallets()
@@ -121,27 +134,36 @@ def setupContract():
     order.contract = os.environ['HOME'] + '/ledger/ledgerEntry/'
     setContractSteps()
 
+
 def rcrdtrf():
-    object = '["test","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
+    #object = '["test","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    object = '["test2","distribution","trust", 1234, 1234, 50]'
+    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'test2' + '@active'])
     print(str(out))
+
 
 def getrcrd():
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'getrcrd', '["EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN"]' , '-p', account.name + '@active'])
+    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'test2' + '@active'])
     print(str(out))
 
+
 def testNullFromKey():
-    object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
+    object = '["test2","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    out = subprocess.check_output(
+        [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
     print(str(out))
+
 
 def testMultipleEntries():
     object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
     object2 = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 51]'
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
+    out = subprocess.check_output(
+        [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
     print(str(out))
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object2, '-p', account.name + '@active'])
+    out = subprocess.check_output(
+        [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object2, '-p', account.name + '@active'])
     print(str(out))
+
 
 def createEosioWallet():
     out = ''
@@ -167,8 +189,9 @@ def check_kill_process(pstring):
 def flushWallets():
     rand = random.randint(1, 1000000)
     try:
-        subprocess.check_output(['mv', os.environ['HOME'] + '/eosio-wallet/', os.environ['HOME'] + '/eosio-wallet.save' + str(rand)])
-        #check_kill_process(os.environ['EOS_KEOSD'])
+        subprocess.check_output(
+            ['mv', os.environ['HOME'] + '/eosio-wallet/', os.environ['HOME'] + '/eosio-wallet.save' + str(rand)])
+        # check_kill_process(os.environ['EOS_KEOSD'])
     except:
         print('Could not move')
 
@@ -176,7 +199,9 @@ def flushWallets():
 def createAccount():
     out = ''
     try:
-        out = subprocess.check_output([os.environ['CLEOS'], 'create', 'account', 'eosio', account.name, wallet.ownerPublicKey, wallet.activePublicKey, '-p', 'eosio'])
+        out = subprocess.check_output(
+            [os.environ['CLEOS'], '--url', blockchain.producer, 'create', 'account', 'eosio', account.name,
+             wallet.ownerPublicKey, wallet.activePublicKey, '-p', 'eosio'])
     except:
         out = 'Could not create account'
     print(str(out))
@@ -187,10 +212,9 @@ if __name__ == '__main__':
     wallet = Wallet()
     blockchain = BlockChain()
     order = Order()
+    account.name = 'test'
     setupContract()
-    #rcrdtrf()
-    #testNullFromKey()
-    #testMultipleEntries()
-    #getrcrd()
-
-
+   # rcrdtrf()
+    # testNullFromKey()
+    # testMultipleEntries()
+   # getrcrd()
