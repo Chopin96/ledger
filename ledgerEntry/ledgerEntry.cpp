@@ -9,23 +9,22 @@ class Ledger : public contract {
       /// @abi action
       void getrcrd(uint64_t tokey)
       {
+          uint64_t amount = 0;
           for(auto& item : ledger)
           {
               if (item.toKey == tokey)
               {
-
-                print("Amount of VTX: ", item.amount, "\n");
-
+                amount += item.amount;
               }
-
           }
+          print("Amount of VTX: ", amount, "\n");
           print("Volentix Ledger version  0.01");
       };
 
       /// @abi action
       void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, uint64_t fromkey, uint64_t tokey, uint32_t amount )
       {
-          //TODO:require_auth(s);
+          //require_auth(s);
           print("Add entry ", fromaccount, toaccount, tokey, fromkey, amount);
           ledger.emplace(get_self(), [&](auto& p)
                                       {
