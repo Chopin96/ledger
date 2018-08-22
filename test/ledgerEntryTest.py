@@ -70,7 +70,7 @@ class Order():
 
 
 def setOwnerKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
+    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console", "--to-file"])
     key = out[13:]
     key = key[:-67]
     key2 = out[77:]
@@ -82,7 +82,7 @@ def setOwnerKeys():
 
 
 def setActiveKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
+    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console", "--to-file"])
     key = out[13:]
     key = key[:-67]
     key2 = out[77:]
@@ -106,7 +106,7 @@ def createWallet(name):
     walletDirectory = os.environ['HOME'] + '/eosio-wallet'
     if not os.path.exists(walletDirectory):
         os.makedirs(walletDirectory)
-    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--to-console'])
+    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--to-console', "--to-file"])
     print(str(out))
 
 
@@ -137,18 +137,18 @@ def setupContract():
 
 def rcrdtrf():
     #object = '["test","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    object = '["test2","distribution","trust", 1234, 1234, 50]'
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'test2' + '@active'])
+    object = '["test","distribution","trust", 1234, 1234, 50]'
+    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'test' + '@active'])
     print(str(out))
 
 
 def getrcrd():
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'test2' + '@active'])
+    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'test' + '@active'])
     print(str(out))
 
 
 def testNullFromKey():
-    object = '["test2","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
     out = subprocess.check_output(
         [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
     print(str(out))
@@ -213,8 +213,8 @@ if __name__ == '__main__':
     blockchain = BlockChain()
     order = Order()
     account.name = 'test'
-    setupContract()
-   # rcrdtrf()
+    #setupContract()
+    rcrdtrf()
     # testNullFromKey()
     # testMultipleEntries()
-   # getrcrd()
+    getrcrd()
