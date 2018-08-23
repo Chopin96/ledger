@@ -21,6 +21,7 @@ os.environ['CLEOS'] = "/usr/local/eosio/bin/cleos"
 class BlockChain():
     def __init__(self):
         self.producer = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8888"
+        self.producerWallets = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8900"
         #self.producer = "http://127.0.0.1:8888"
 
 class Account():
@@ -123,7 +124,8 @@ def setContractSteps():
     print('set contract steps')
 
 def setupContract():
-    flushWallets()
+    out = subprocess.check_output(['rm', '-rf', os.environ['NODEOS_DATA']])
+    #flushWallets()
     createEosioWallet()
     wallet.name = 'test'
     createWallet('test')
@@ -224,7 +226,7 @@ if __name__ == '__main__':
     order = Order()
     account.name = 'test'
     #setupContract()
-    unlockWallets()
+    #unlockWallets()
     rcrdtrf()
     # testNullFromKey()
     # testMultipleEntries()
