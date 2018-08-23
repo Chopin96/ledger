@@ -70,7 +70,7 @@ class Order():
 
 
 def setOwnerKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console", "--to-file"])
+    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
     key = out[13:]
     key = key[:-67]
     key2 = out[77:]
@@ -82,7 +82,7 @@ def setOwnerKeys():
 
 
 def setActiveKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console", "--to-file"])
+    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
     key = out[13:]
     key = key[:-67]
     key2 = out[77:]
@@ -106,8 +106,9 @@ def createWallet(name):
     walletDirectory = os.environ['HOME'] + '/eosio-wallet'
     if not os.path.exists(walletDirectory):
         os.makedirs(walletDirectory)
-    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--to-console', "--to-file"])
+    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--file', name])
     print(str(out))
+	
 
 
 def setContractSteps():
@@ -143,7 +144,7 @@ def rcrdtrf():
 
 
 def getrcrd():
-    out = subprocess.check_output([os.environ['CLEOS'], 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'test' + '@active'])
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'test' + '@active'])
     print(str(out))
 
 
@@ -196,15 +197,24 @@ def flushWallets():
         print('Could not move')
 
 
+
+
 def createAccount():
     out = ''
     try:
-        out = subprocess.check_output(
-            [os.environ['CLEOS'], '--url', blockchain.producer, 'create', 'account', 'eosio', account.name,
-             wallet.ownerPublicKey, wallet.activePublicKey, '-p', 'eosio'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'create', 'account', 'eosio', account.name, wallet.ownerPublicKey, wallet.activePublicKey, '-p', 'eosio'])
     except:
         out = 'Could not create account'
     print(str(out))
+
+def unlockWallets():
+    try:	
+    	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'eosio', '--password', 'PW5JHYpoBnmhqng1ixyV1wz6a4Tu8mCUvwAdRyVE1otGupSRDWzBY'])
+    	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'test', '--password', 'PW5JUTVUM8XyvC4dVPhhyJtb23yMneWJQpQ3n9F4uUk8HV2uFyL3T'])
+    except:
+    	out = "could not unlock wallet"
+    print("wallets already unlocked")	
+	
 
 
 if __name__ == '__main__':
@@ -214,6 +224,7 @@ if __name__ == '__main__':
     order = Order()
     account.name = 'test'
     #setupContract()
+    unlockWallets()
     rcrdtrf()
     # testNullFromKey()
     # testMultipleEntries()
