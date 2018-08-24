@@ -7,8 +7,10 @@ jobs:
     steps:
     - checkout
     - run: |
+        cd ledgerEntry
         ls -lart
-        eosiocpp
+        eosiocpp -o ledgerEntry.wast ledgerEntry.cpp
+        eosiocpp -g ledgerEntry.abi ledgerEntry.cpp
 
 workflows:
   version: 2
