@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-    - image: volentixlabs/aws-kube-deploy:v0.1.2
+    - image: eosio/eos-dev:latest
     working_directory: ~/repo
     steps:
     - checkout
