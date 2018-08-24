@@ -11,6 +11,8 @@ jobs:
         ls -lart
         eosiocpp -o ledgerEntry.wast ledgerEntry.cpp
         eosiocpp -g ledgerEntry.abi ledgerEntry.cpp
+        echo "DID COMP"
+        ls -lart
 
 workflows:
   version: 2
