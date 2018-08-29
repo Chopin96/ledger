@@ -13,6 +13,7 @@ jobs:
         eosiocpp -g ledgerEntry.abi ledgerEntry.cpp
         echo "DID COMP"
         ls -lart
+        cleos --url http://dev.cryptolions.io:38888 get info
 
 workflows:
   version: 2
