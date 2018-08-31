@@ -1,5 +1,4 @@
 #include <eosiolib/eosio.hpp>
-#include <fc/crypto/rand.hpp>
 
 using namespace eosio;
 
@@ -38,7 +37,7 @@ class Ledger : public contract {
                                         p.toKey = tokey;
                                         p.fromKey = fromkey;
                                         p.amount = amount;
-                                        p.lut.insert(std::make_pair(tokey, (uint64_t)&buf));
+                                       // p.lut.insert(std::make_pair(tokey, (uint64_t)&buf));
                                       });
           
          
