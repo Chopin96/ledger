@@ -55,7 +55,7 @@ class Ledger : public contract {
         std::string   toKey;
         std::string   fromKey;
         uint32_t      amount;
-        std::map<std::string, uint64_t> lut;
+        //std::map<std::string, uint64_t> lut;
         uint64_t primary_key() const { return key; }
         uint64_t by_Id() const {return Id; }
       };
