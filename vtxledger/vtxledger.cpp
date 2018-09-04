@@ -26,7 +26,7 @@ class Ledger : public contract {
       };
 
       /// @abi action
-      void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, std::string fromkey, std::string tokey, uint32_t amount )
+      void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, std::string fromkey, std::string tokey, uint64_t amount )
       {
           uint64_t lKey = string_to_name(tokey.c_str());
           //require_auth(s);
@@ -61,7 +61,7 @@ class Ledger : public contract {
         std::string   toAccount;
         uint64_t   toKey;
         std::string   fromKey;
-        uint32_t      amount;
+        uint64_t      amount;
         uint64_t primary_key() const { return key; }
         uint64_t by_Id() const {return Id; }
       };
