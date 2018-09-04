@@ -20,9 +20,9 @@ os.environ['CLEOS'] = "/usr/local/eosio/bin/cleos"
 
 class BlockChain():
     def __init__(self):
-        self.producer = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8888"
+        #self.producer = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.comi:8888"
         self.producerWallets = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8900"
-        #self.producer = "http://127.0.0.1:8888"
+        self.producer = "http://127.0.0.1:8888"
 
 class Account():
     def __init__(self):
@@ -118,6 +118,7 @@ def setContractSteps():
         out = subprocess.check_output(
             [os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'contract', account.name, order.contract, '-p',
              account.name])
+
     except:
         out = 'Cannot set contract steps'
     print(str(out))
@@ -125,41 +126,41 @@ def setContractSteps():
 
 def setupContract():
     out = subprocess.check_output(['rm', '-rf', os.environ['NODEOS_DATA']])
-    #flushWallets()
+    flushWallets()
     createEosioWallet()
-    wallet.name = 'test'
-    createWallet('test')
+    wallet.name = 'vtxledger'
+    createWallet('vtxledger')
     setActiveKeys()
     setOwnerKeys()
     importKeys()
-    account.name = 'test'
+    account.name = 'vtxledger'
     createAccount()
-    order.contract = os.environ['HOME'] + '/ledger/ledgerEntry/'
+    order.contract = os.environ['HOME'] + '/ledger/vtxledger'
     setContractSteps()
 
 
 def rcrdtrf():
-    #object = '["test","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    object = '["test","distribution","trust", 1234, 1234, 50]'
-    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'test' + '@active'])
+    #object = '["vtxledger","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    object = '["vtxledger","distribution","trust", 1234, 1234, 50]'
+    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
 
 
 def getrcrd():
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'test' + '@active'])
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'vtxledger' + '@active'])
     print(str(out))
 
 
-def testNullFromKey():
-    object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+def vtxledgerNullFromKey():
+    object = '["vtxledger","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
     out = subprocess.check_output(
         [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
     print(str(out))
 
 
-def testMultipleEntries():
-    object = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    object2 = '["test","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 51]'
+def vtxledgerMultipleEntries():
+    object = '["vtxledger","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
+    object2 = '["vtxledger","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 51]'
     out = subprocess.check_output(
         [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
     print(str(out))
@@ -212,7 +213,7 @@ def createAccount():
 def unlockWallets():
     try:	
     	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'eosio', '--password', 'PW5JHYpoBnmhqng1ixyV1wz6a4Tu8mCUvwAdRyVE1otGupSRDWzBY'])
-    	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'test', '--password', 'PW5JUTVUM8XyvC4dVPhhyJtb23yMneWJQpQ3n9F4uUk8HV2uFyL3T'])
+    	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'vtxledger', '--password', 'PW5JUTVUM8XyvC4dVPhhyJtb23yMneWJQpQ3n9F4uUk8HV2uFyL3T'])
     except:
     	out = "could not unlock wallet"
     print("wallets already unlocked")	
@@ -224,10 +225,10 @@ if __name__ == '__main__':
     wallet = Wallet()
     blockchain = BlockChain()
     order = Order()
-    account.name = 'test'
-    #setupContract()
+    account.name = 'vtxledger'
+    setupContract()
     #unlockWallets()
-    rcrdtrf()
-    # testNullFromKey()
-    # testMultipleEntries()
-    getrcrd()
+    #rcrdtrf()
+    # vtxledgerNullFromKey()
+    # vtxledgerMultipleEntries()
+    #getrcrd()
