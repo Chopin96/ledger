@@ -11,7 +11,7 @@ jobs:
         eosiocpp -o vtxledger.wast vtxledger.cpp
         eosiocpp -o vtxledger.wasm vtxledger.cpp
         eosiocpp -g vtxledger.abi vtxledger.cpp
-	cd ../
+        cd ../
         cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
 
 workflows:
