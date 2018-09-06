@@ -8,14 +8,9 @@ jobs:
     - checkout
     - run: |
         cd vtxledger
-        ls -lart
         eosiocpp -o vtxledger.wast vtxledger.cpp
         eosiocpp -g vtxledger.abi vtxledger.cpp
-        echo "DID COMP"
-        ls -lart
-        cleos --url http:// ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888 get_info
-	cleos --url http:// ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888 set contract vtxledger ./vtxledger -p vtxledger
-	
+	cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
 
 workflows:
   version: 2

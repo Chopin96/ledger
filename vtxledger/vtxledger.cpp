@@ -1,6 +1,4 @@
 #include <eosiolib/eosio.hpp>
-#include <vector>
-#include<tuple>
 
 using namespace eosio;
 
