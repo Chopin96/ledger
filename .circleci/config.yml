@@ -9,8 +9,11 @@ jobs:
     - run: |
         cd vtxledger
         eosiocpp -o vtxledger.wast vtxledger.cpp
-	eosiocpp -o vtxledger.wasm vtxledger.cpp
+        echo('wast compiled')
+        eosiocpp -o vtxledger.wasm vtxledger.cpp
+        echo('wasm compiled')
         eosiocpp -g vtxledger.abi vtxledger.cpp
+        echo('abi compiled')
         cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
 
 workflows:
