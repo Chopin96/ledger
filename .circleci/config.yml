@@ -7,7 +7,7 @@ jobs:
     steps:
     - checkout
     - run: |
-        cleos create wallet -n eosio
+        cleos wallet create -n eosio
         cleos wallet create_key -n eosio
         cleos wallet import -n eosio 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
         cleos create wallet -n vtxledger
