@@ -125,17 +125,17 @@ def setContractSteps():
     print('set contract steps')
 
 def setupContract():
-    out = subprocess.check_output(['rm', '-rf', os.environ['NODEOS_DATA']])
-    flushWallets()
-    createEosioWallet()
-    wallet.name = 'vtxledger'
-    createWallet('vtxledger')
-    setActiveKeys()
-    setOwnerKeys()
-    importKeys()
-    account.name = 'vtxledger'
-    createAccount()
-    order.contract = os.environ['HOME'] + '/ledger/test/'
+    #out = subprocess.check_output(['rm', '-rf', os.environ['NODEOS_DATA']])
+    #flushWallets()
+    #createEosioWallet()
+    #wallet.name = 'vtxledger'
+    #createWallet('vtxledger')
+    #setActiveKeys()
+    #setOwnerKeys()
+    #importKeys()
+    #account.name = 'vtxledger'
+    #createAccount()
+    order.contract = os.environ['HOME'] + '/ledger/vtxledger/'
     setContractSteps()
 
 
