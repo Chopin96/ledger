@@ -13,7 +13,7 @@ jobs:
         cleos create wallet -n vtxledger
         cleos wallet create_key -n vtxledger
         cleos wallet import -n vtxledger 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
-	cd vtxledger
+        cd vtxledger
         eosiocpp -o vtxledger.wast vtxledger.cpp
         eosiocpp -o vtxledger.wasm vtxledger.cpp
         eosiocpp -g vtxledger.abi vtxledger.cpp
