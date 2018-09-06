@@ -7,7 +7,13 @@ jobs:
     steps:
     - checkout
     - run: |
-        cd vtxledger
+        cleos create wallet -n eosio
+        cleos wallet create_key -n eosio
+        cleos wallet import -n eosio 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
+        cleos create wallet -n vtxledger
+        cleos wallet create_key -n vtxledger
+        cleos wallet import -n vtxledger 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
+	cd vtxledger
         eosiocpp -o vtxledger.wast vtxledger.cpp
         eosiocpp -o vtxledger.wasm vtxledger.cpp
         eosiocpp -g vtxledger.abi vtxledger.cpp
