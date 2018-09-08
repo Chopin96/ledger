@@ -151,7 +151,7 @@ def rcrdtrf():
     print(str(out))
 
 def getblnc():
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', '["trust", null]', '-p', 'vtxledger' + '@active'])
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', '["distribution", null]', '-p', 'vtxledger' + '@active'])
     print(str(out))
 
 

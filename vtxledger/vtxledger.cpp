@@ -18,28 +18,25 @@ public:
 				if (item.sToKey.compare(tokey) == 0) {
 					amount += item.amount;
 				}
-				provenance = "toKey";
+
 			}
 			for (auto& item : ledger) {
 				if (item.fromKey.compare(tokey) == 0) {
 					amount += item.amount;
 				}
-				provenance = "fromKey";
+				provenance = item.sToKey;
 			}
+
 			print("Amount of VTX: ", amount, " From ", provenance, "\n");
 		} else if (tokey.empty()) {
 			for (auto& item : ledger) {
 				if (item.toAccount.compare(account) == 0) {
 					amount += item.amount;
-					provenance = "toAccount";
 				}
 				else if(item.fromAccount.compare(account) == 0){
 					amount += item.amount;
-					provenance = "fromAccount";
 				}
-				else{
-					print("Error ----- No account found");
-				}
+				provenance = item.toAccount;
 			}
 			print("Amount of VTX: ", amount, " From ", provenance, "\n");
 		}
@@ -51,7 +48,6 @@ public:
 			}
 			print("Amount of VTX: ", amount,"\n");
 		}
-
 	}
 	;
 	/// @abi action
