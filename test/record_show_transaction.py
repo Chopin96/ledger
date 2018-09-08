@@ -138,16 +138,20 @@ def setupContract():
     order.contract = os.environ['HOME'] + '/ledger/vtxledger/'
     setContractSteps()
 
+def retrvtxns():
+    object = '["distribution", "", 20]';
+    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))	
+
 
 def rcrdtrf():
     #object = '["vtxledger","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    object = '["vtxledger","distribution","trust", EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN, EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN, 50]'
+    object = '["vtxledger", "distribution", "trust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
     out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
 
-
-def getrcrd():
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getrcrd', '[EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN, EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN]', '-p', 'vtxledger' + '@active'])
+def getblnc():
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', '["trust", null]', '-p', 'vtxledger' + '@active'])
     print(str(out))
 
 
@@ -231,5 +235,6 @@ if __name__ == '__main__':
     rcrdtrf()
     # vtxledgerNullFromKey()
     # vtxledgerMultipleEntries()
-    getrcrd()
+    getblnc()
+    #retrvtxns()
 

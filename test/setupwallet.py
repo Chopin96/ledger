@@ -133,8 +133,8 @@ def setupContract():
     setActiveKeys()
     setOwnerKeys()
     importKeys()
-    #account.name = 'vtxledger'
-    #createAccount()
+    account.name = 'vtxledger'
+    createAccount()
     #order.contract = os.environ['HOME'] + '/ledger/vtxledger/'
     #setContractSteps()
 

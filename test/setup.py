@@ -133,8 +133,8 @@ def setupContract():
     setActiveKeys()
     setOwnerKeys()
     importKeys()
-    #account.name = 'vtxledger'
-    #createAccount()
+#     account.name = 'vtxledger'
+#     createAccount()
     compileContract()
     order.contract = os.environ['HOME'] + '/ledger/vtxledger/'
     setContractSteps()
@@ -222,8 +222,8 @@ def unlockWallets():
 def compileContract():
    
     out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.wasm' , os.environ['HOME'] + '/ledger/vtxledger/vtxledger.cpp' ])
-    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.wast', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.cpp' ])
-    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-g', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.abi', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.cpp' ])
+    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.wast' , os.environ['HOME'] + '/ledger/vtxledger/vtxledger.cpp' ])
+    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-g', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.abi' , os.environ['HOME'] + '/ledger/vtxledger/vtxledger.cpp' ])
 
 if __name__ == '__main__':
     account = Account()
