@@ -15,10 +15,11 @@ jobs:
         cleos wallet create_key -n vtxledger
         cleos wallet import -n vtxledger --private-key 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
         cd vtxledger
-        eosiocpp -o vtxledger.wast vtxledger.cpp
+        ls vtxledger
+	eosiocpp -o vtxledger.wast vtxledger.cpp
         eosiocpp -g vtxledger.abi vtxledger.cpp
         cd ../
-        #cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
+        cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
 
 workflows:
   version: 2
