@@ -7,10 +7,9 @@ class Ledger: public contract {
 public:
 	Ledger(account_name s) :
 			contract(s), ledger(s, s) {
-		print("INIT TEST: **********: ");
 	}
 	/// @abi action
-	void getblnc(std::string account, std::string tokey) {
+	uint64_t getblnc(std::string account, std::string tokey) {
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t amount = 0;
 		std::string provenance = "";
@@ -19,7 +18,6 @@ public:
 				if (item.sToKey.compare(tokey) == 0) {
 					amount += item.amount;
 				}
-
 			}
 			for (auto& item : ledger) {
 				if (item.fromKey.compare(tokey) == 0) {
@@ -27,7 +25,6 @@ public:
 				}
 				provenance = item.sToKey;
 			}
-
 			print("Amount of VTX: ", amount, " From ", provenance, "\n");
 		} else if (tokey.empty()) {
 			for (auto& item : ledger) {
@@ -49,6 +46,7 @@ public:
 			}
 			print("Amount of VTX: ", amount,"\n");
 		}
+		return 1;
 	}
 
 	/// @abi action
