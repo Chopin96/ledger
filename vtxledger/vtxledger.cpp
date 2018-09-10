@@ -7,6 +7,7 @@ class Ledger: public contract {
 public:
 	Ledger(account_name s) :
 			contract(s), ledger(s, s) {
+		print("INIT TEST: **********: ");
 	}
 	/// @abi action
 	void getblnc(std::string account, std::string tokey) {
