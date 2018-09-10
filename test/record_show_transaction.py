@@ -230,11 +230,11 @@ if __name__ == '__main__':
     blockchain = BlockChain()
     order = Order()
     account.name = 'vtxledger'
-    #setupContract()
+    setupContract()
     #unlockWallets()
-    rcrdtrf()
+    #rcrdtrf()
     # vtxledgerNullFromKey()
     # vtxledgerMultipleEntries()
-    getblnc()
+    #getblnc()
     #retrvtxns()
 

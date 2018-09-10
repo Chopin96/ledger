@@ -49,7 +49,7 @@ public:
 			print("Amount of VTX: ", amount,"\n");
 		}
 	}
-	;
+
 	/// @abi action
 	void retrvtxns(std::string account, std::string tokey, uint64_t limit) {
 
@@ -70,7 +70,6 @@ public:
 		}
 
 	}
-	;
 
 	/// @abi action
 	void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, std::string fromkey, std::string tokey, uint64_t amount) {
@@ -93,7 +92,7 @@ public:
 		});
 
 	}
-	;
+
 
 private:
 
@@ -123,4 +122,4 @@ private:
 
 };
 
-EOSIO_ABI( Ledger, (getblnc)(rcrdtfr) (retrvtxns))
+EOSIO_ABI(Ledger,(getblnc)(rcrdtfr)(retrvtxns))
