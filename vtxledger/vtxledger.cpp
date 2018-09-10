@@ -76,7 +76,7 @@ public:
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t lSecKey = string_to_name(toaccount.c_str());
 		//require_auth(s);
-		int test = 0;
+		int test = 11111;
 
 		ledger.emplace(get_self(), [&](auto& p)
 		{
