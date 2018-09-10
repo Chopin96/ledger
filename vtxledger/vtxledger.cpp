@@ -70,7 +70,7 @@ public:
 		}
 
 	}
-
+   void test(){}
 	/// @abi action
 	void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, std::string fromkey, std::string tokey, uint64_t amount) {
 		uint64_t lKey = string_to_name(tokey.c_str());
