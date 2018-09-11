@@ -20,8 +20,8 @@ jobs:
         cd ../
         ls vtxledger
         cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
-	cd test/js
-	node record_all_params.js
+        cd test/js
+        node record_all_params.js
  
 workflows:
   version: 2
