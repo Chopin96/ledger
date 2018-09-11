@@ -9,44 +9,50 @@ public:
 			contract(s), ledger(s, s) {
 	}
 	/// @abi action
-	uint64_t getblnc(std::string account, std::string tokey) {
-		uint64_t lKey = string_to_name(tokey.c_str());
+	void getblnc(std::string account, std::string tokey) {
 		uint64_t amount = 0;
-		std::string provenance = "";
 		if (account.empty()) {
 			for (auto& item : ledger) {
 				if (item.sToKey.compare(tokey) == 0) {
 					amount += item.amount;
+					print("Empty account ");
 				}
 			}
-			for (auto& item : ledger) {
-				if (item.fromKey.compare(tokey) == 0) {
-					amount += item.amount;
-				}
-				provenance = item.sToKey;
-			}
-			print("Amount of VTX: ", amount, " From ", provenance, "\n");
+			print("Empty account ");
 		} else if (tokey.empty()) {
 			for (auto& item : ledger) {
 				if (item.toAccount.compare(account) == 0) {
 					amount += item.amount;
+					print("Empty key toAccount ");
 				}
 				else if(item.fromAccount.compare(account) == 0){
 					amount += item.amount;
+					print("Empty key fromAccount ");
 				}
-				provenance = item.toAccount;
 			}
-			print("Amount of VTX: ", amount, " From ", provenance, "\n");
 		}
 		else {
 			for (auto& item : ledger) {
-				if (item.toKey == lKey) {
+				if ((item.sToKey.compare(tokey) == 0 && item.toAccount.compare(account) == 0) ||
+					 (item.sToKey.compare(tokey) == 0 && item.fromAccount.compare(account) == 0)) {
 					amount += item.amount;
+					print("Both ");
 				}
 			}
-			print("Amount of VTX: ", amount,"\n");
+
 		}
-		return 1;
+
+		std::string s;
+		s.append("{");
+		s.append("'amount'");
+		s.append(":");
+		s.append(std::to_string(amount));
+		s.append(", ");
+		s.append("'currency'");
+		s.append(":");
+		s.append("'VTX'");
+		s.append("}");
+		print(s.c_str());
 	}
 
 	/// @abi action
@@ -54,14 +60,11 @@ public:
 
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t amount = 0;
-
 		int i = 0;
 		for (auto& item : ledger) {
-
 			print("from Account:", item.fromAccount, "to Account:",
 					item.toAccount, "from Key: ", item.fromKey, "to Key: ",
 					item.toKey, "Amount:", item.amount);
-
 			i++;
 			if (i == limit) {
 				break;
@@ -69,11 +72,14 @@ public:
 		}
 
 	}
+
 	/// @abi action
 	void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, std::string fromkey, std::string tokey, uint64_t amount) {
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t lSecKey = string_to_name(toaccount.c_str());
 		//require_auth(s);
+		int test = 0;
+
 		ledger.emplace(get_self(), [&](auto& p)
 		{
 			p.key = ledger.available_primary_key();
@@ -84,7 +90,6 @@ public:
 			p.sToKey = tokey;
 			p.fromKey = fromkey;
 			p.amount = amount;
-
 		});
 
 	}
@@ -111,11 +116,10 @@ private:
 		}
 
 	};
-	typedef eosio::multi_index<N(entry), entry,
-			indexed_by<N(Id), const_mem_fun<entry, uint64_t, &entry::by_Id>>> ledgertable;
+	typedef eosio::multi_index<N(entry), entry, indexed_by<N(Id), const_mem_fun<entry, uint64_t, &entry::by_Id>>> ledgertable;
 
 	ledgertable ledger;
 
 };
 
-EOSIO_ABI(Ledger,(getblnc)(rcrdtfr)(retrvtxns))
+EOSIO_ABI( Ledger,(getblnc)(rcrdtfr)(retrvtxns))
