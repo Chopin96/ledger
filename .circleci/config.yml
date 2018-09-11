@@ -10,9 +10,6 @@ jobs:
         cleos wallet create -n eosio --to-console
         cleos wallet create_key -n eosio
         cleos wallet import -n eosio --private-key 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3igQz
-        cleos wallet create -n vtxledger --to-console
-        cleos wallet create_key -n vtxledger
-        cleos wallet import -n vtxledger --private-key 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
  
 workflows:
   version: 2
