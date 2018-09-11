@@ -88,6 +88,10 @@ public:
 
 	/// @abi action
 	void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount, std::string fromkey, std::string tokey, uint64_t amount) {
+		if (tokey.empty())
+		{
+			tokey = "";
+		}
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t lSecKey = string_to_name(toaccount.c_str());
 		//require_auth(s);
