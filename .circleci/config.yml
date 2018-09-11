@@ -3,13 +3,11 @@ jobs:
   build:
     docker:
     - image: eosio/eos-dev:latest
-    - image: circleci/python:3.7.0
+    - image: circleci/10.9.0-jessie-browsers
     working_directory: ~/repo
     steps:
     - checkout
     - run:
-        python3 install pip3 |
-        
 	cleos wallet create -n eosio --to-console
         cleos wallet create_key -n eosio
         cleos wallet import -n eosio --private-key 5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz
@@ -22,7 +20,9 @@ jobs:
         cd ../
         ls vtxledger
         cleos --url 'http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888' set contract 'vtxledger' 'vtxledger' -p 'vtxledger'
-
+	cd test/js
+	node record_all_params.js
+ 
 workflows:
   version: 2
   build_and_deploy:
