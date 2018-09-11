@@ -15,19 +15,15 @@ public:
 			for (auto& item : ledger) {
 				if (item.sToKey.compare(tokey) == 0) {
 					amount += item.amount;
-					print("Empty account ");
 				}
 			}
-			print("Empty account ");
 		} else if (tokey.empty()) {
 			for (auto& item : ledger) {
 				if (item.toAccount.compare(account) == 0) {
 					amount += item.amount;
-					print("Empty key toAccount ");
 				}
 				else if(item.fromAccount.compare(account) == 0){
 					amount += item.amount;
-					print("Empty key fromAccount ");
 				}
 			}
 		}
@@ -36,12 +32,9 @@ public:
 				if ((item.sToKey.compare(tokey) == 0 && item.toAccount.compare(account) == 0) ||
 					 (item.sToKey.compare(tokey) == 0 && item.fromAccount.compare(account) == 0)) {
 					amount += item.amount;
-					print("Both ");
 				}
 			}
-
 		}
-
 		std::string s;
 		s.append("{");
 		s.append("'amount'");
@@ -57,20 +50,40 @@ public:
 
 	/// @abi action
 	void retrvtxns(std::string account, std::string tokey, uint64_t limit) {
-
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t amount = 0;
 		int i = 0;
+
 		for (auto& item : ledger) {
-			print("from Account:", item.fromAccount, "to Account:",
-					item.toAccount, "from Key: ", item.fromKey, "to Key: ",
-					item.toKey, "Amount:", item.amount);
+			std::string s;
+			s.append("{");
+			s.append("'fromaccount'");
+			s.append(":");
+			s.append(item.fromAccount);
+			s.append(", ");
+			s.append("'toaccount'");
+			s.append(":");
+			s.append(item.toAccount);
+			s.append(", ");
+			s.append("'fromkey'");
+			s.append(":");
+			s.append(item.fromKey);
+			s.append(", ");
+			s.append("'tokey'");
+			s.append(":");
+			s.append(item.sToKey);
+			s.append(", ");
+			s.append("'amount'");
+			s.append(":");
+			s.append(std::to_string(item.amount));
+			s.append(", ");
+			s.append("}");
+			print(s.c_str());
 			i++;
 			if (i == limit) {
 				break;
 			}
 		}
-
 	}
 
 	/// @abi action
@@ -78,8 +91,6 @@ public:
 		uint64_t lKey = string_to_name(tokey.c_str());
 		uint64_t lSecKey = string_to_name(toaccount.c_str());
 		//require_auth(s);
-		int test = 0;
-
 		ledger.emplace(get_self(), [&](auto& p)
 		{
 			p.key = ledger.available_primary_key();
@@ -91,7 +102,6 @@ public:
 			p.fromKey = fromkey;
 			p.amount = amount;
 		});
-
 	}
 
 
