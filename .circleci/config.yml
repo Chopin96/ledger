@@ -8,6 +8,7 @@ jobs:
     - checkout
     - run:
         cleos wallet create -n eosio --to-console
+        cleos wallet create_key -n eosio
  
 workflows:
   version: 2
