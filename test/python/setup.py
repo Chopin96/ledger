@@ -20,8 +20,6 @@ os.environ['CLEOS'] = "/usr/local/eosio/bin/cleos"
 
 class BlockChain():
     def __init__(self):
-        #self.producer = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.comi:8888"
-        self.producerWallets = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8900"
         self.producer = "http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888"
 
 class Account():
@@ -141,8 +139,7 @@ def setupContract():
 
 
 def rcrdtrf():
-    #object = '["vtxledger","distribution","trust","EOS76eN25dUZqb33cA7pPSXEbBFuxwxopNCLnaWFKNviu5dcig6yJ", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    object = '["vtxledger","distribution","trust", 1234, 1234, 50]'
+    object = '["vtxledger","vtxdistrib1","vtxdistrib",10000000, "", ""]'
     out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
 
@@ -221,7 +218,7 @@ def unlockWallets():
 	
 def compileContract():
    
-    #out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/ledger/vtxledger/vtxledger.wasm' , os.environ['HOME'] + '/ledger/vtxledger/vtxledger.cpp' ])
+    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/vtxledger.wasm' , os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/vtxledger.cpp' ])
     out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/vtxledger.wast' , os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/vtxledger.cpp' ])
     out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-g', os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/vtxledger.abi' , os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/vtxledger.cpp' ])
 

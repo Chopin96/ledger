@@ -11,14 +11,12 @@ config = {
   },
 }
 eos = Eos(config)
-eos.contract('vtxledger').then(vtxledger =>{vtxledger.getblnc(
+eos.contract('vtxledger').then(vtxledger =>{vtxledger.getentries(
         {
-          "account":"trust",
-          "tokey":"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",
         },
         {
              'authorization':['vtxledger@active']
-        }).then(result =>{console.log(JSON.stringify(result,null,2))})
+        }).then(result =>{console.log(JSON.stringify(result, null, 4))})
       }
 )
 

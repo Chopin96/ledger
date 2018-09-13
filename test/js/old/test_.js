@@ -1,24 +1,4 @@
 
-// const eos = Eos({ 
-//   httpEndpoint: process.env.EOS_PROTOCOL + "://" +  process.env.EOS_HOST + ":" + process.env.EOS_PORT,
-//   keyProvider: process.env.EOS_KEY,
-//   chainId: process.env.EOS_CHAIN,
-//   verbose:false,
-//   logger: {
-//     log: null,
-//     error: null
-//   }
-// });
-
-// eos.getAccount("eostitanvote")
-// .then(result=>{
-
-//     var command = 'cleos -u http://api.eostitan.com system voteproducer prods eostitanvote ' + result.voter_info.producers.join(" ");
-
-//     console.log(command);
-
-// })
-
 Eos = require('eosjs')
 config = {
   chainId: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f', // 32 byte (64 char) hex string
