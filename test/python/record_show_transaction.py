@@ -158,6 +158,66 @@ def rcrdtrf():
     print(str(out))
     print('****************************************************')
     print('Get Balance Wallet')
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('****************************************************')
+    print('Account to wallet')
+    object = '["vtxledger", "vtxdistrib", "vtxtrust", 50,"", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN"]'
+    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance Wallet')
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance vtxdistrib')
+    object = '["vtxdistrib", "",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance vtxtrust')
+    object = '["vtxtrust", "",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Wallet to Account')
+    object = '["vtxledger", "vtxtrust", "vtxdistrib", 50,"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", ""]'
+    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('****************************************************')
+    print('Get Balance Wallet')
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance vtxdistrib')
+    object = '["vtxdistrib", "",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance vtxtrust')
+    object = '["vtxtrust", "",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    
+def testAccounToWallet():
+    print('****************************************************')
+    print('****************************************************')
+    print('Get Balance vtxdisrib')
+    object = '["vtxdistrib", "",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance vtxtrust')
+    object = '["vtxtrust", "",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
+    print('Get Balance Wallet')
     object = '["", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
@@ -168,11 +228,16 @@ def rcrdtrf():
     out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
     print('****************************************************')
+    print('Get Balance Wallet')
+    object = '["", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print('****************************************************')
     print('Wallet to Account')
     object = '["vtxledger", "vtxdistrib", "vtxtrust", 50,"", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN"]'
     out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
-    print('****************************************************')
+    print
     print('****************************************************')
     print('Get Balance Wallet')
     object = '["", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
@@ -188,7 +253,6 @@ def rcrdtrf():
     object = '["vtxtrust", "",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
-    
     
 #     print('Wallet to account')
 #     object = '["vtxledger", "vtxdistrib", "vtxtrust", 50,"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", ""]'

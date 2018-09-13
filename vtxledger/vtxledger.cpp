@@ -9,24 +9,6 @@ class Ledger: public contract {
 		Ledger(account_name s) :
 				contract(s), ledger(s, s) {
 
-//					uint64_t size = 0;
-//					for (auto itr = ledger.begin(); itr != ledger.end(); ++itr) {
-//					    size++;
-//					}
-
-//					if (size < 1){
-//						ledger.emplace(get_self(), [&](auto& p)
-//												{
-//											p.key = ledger.available_primary_key();
-//											p.Id = ledger.available_primary_key();
-//											p.fromAccount = "vtxdistrib1";
-//											p.toAccount = "vtxdistrib";
-//											p.toKey = ledger.available_primary_key();;
-//											p.sToKey = "";
-//											p.fromKey = "";
-//											p.amount = 36400000000;
-//													});
-//					}
 		}
 
 		/// @abi action
@@ -66,24 +48,19 @@ class Ledger: public contract {
 
 			if (tokey.compare("") == 0) {
 				for (auto& item : ledger) {
-					if (item.fromAccount.compare(account) == 0) {
+					if (item.fromAccount.compare(account) == 0
+							|| item.toAccount.compare(account) == 0) {
 						amount += item.amount;
 					}
 				}
 			} else {
-
 				for (auto& item : ledger) {
-					if (item.sToKey.compare(tokey) == 0
-							|| item.sToKey.compare(tokey) == 0) {
-
+					if ((item.toAccount.compare(account) ||item.fromAccount.compare(account)) && (item.sToKey.compare(tokey) == 0 || item.fromKey.compare(tokey) == 0))
 						amount += item.amount;
-
-					}
 				}
-
 			}
-			//amount = (uint64_t) amount;
-
+			amount = (uint64_t) amount;
+			int build = 1;
 			std::string s;
 			s.append("{");
 			s.append("'amount'");
@@ -140,10 +117,10 @@ class Ledger: public contract {
 				std::string toaccount, uint64_t amount, std::string fromkey,
 				std::string tokey) {
 
-			//require_auth(s);
+//require_auth(s);
 			uint64_t lKey = string_to_name(tokey.c_str());
 			uint64_t lSecKey = string_to_name(toaccount.c_str());
-			//eosio_assert(amount != 0, "amount needs to be greater than 0");
+//eosio_assert(amount != 0, "amount needs to be greater than 0");
 
 			bool condition1 = false;
 			bool condition2 = false;
@@ -152,30 +129,30 @@ class Ledger: public contract {
 			bool condition5 = false;
 			bool condition6 = false;
 
-			//All fields missing - No transaction
+//All fields missing - No transaction
 			condition1 = !fromaccount.empty() && !toaccount.empty()
 					&& !fromkey.empty() && !tokey.empty();
 
-			//eosio_assert(condition1, "all fields missing");
-			//2 first fields missing - No transaction
+//eosio_assert(condition1, "all fields missing");
+//2 first fields missing - No transaction
 			condition2 = fromaccount.empty() || toaccount.empty();
-			//eosio_assert(condition2, "missing toaccount or fromaccount or both");
+//eosio_assert(condition2, "missing toaccount or fromaccount or both");
 
-			//All fields full - Wallet to Wallet
+//All fields full - Wallet to Wallet
 			condition3 = !fromkey.empty() && !tokey.empty();
 
-			//fromkey field missing - Account to Wallet
+//fromkey field missing - Account to Wallet
 			condition4 = fromkey.empty() && !tokey.empty();
 
-			//tokey field missing - Wallet to Account
-			condition5 = fromkey.empty() && !tokey.empty();
+//tokey field missing - Wallet to Account
+			condition5 = !fromkey.empty() && tokey.empty();
 
-			//tokey fields missing - Account to Account
+//tokey fields missing - Account to Account
 			condition6 = fromkey.empty() && tokey.empty();
 
 			int64_t negAmount = -1 * amount;
 			int64_t posAmount = amount;
-			//Wallet to Wallet
+//Wallet to Wallet
 			if (condition3) {
 				//decrease with fromkey
 				print("Wallet to Wallet");
@@ -234,10 +211,10 @@ class Ledger: public contract {
 
 				});
 			}
-			//Wallet to Account
+			//Wallet to account
 			else if (condition5) {
-				print("Wallet to Account");
-				//decrease fromkey
+				print("Wallet to account");
+				//decrease with fromkey
 				ledger.emplace(get_self(), [&](auto& p)
 				{
 					p.key = ledger.available_primary_key();
@@ -245,11 +222,12 @@ class Ledger: public contract {
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
 					p.toKey = lKey;
-					p.sToKey = "";
+					p.sToKey = tokey;
 					p.fromKey = fromkey;
 					p.amount = negAmount;
+
 				});
-				//augment toaccount
+				//increase with to account
 				ledger.emplace(get_self(), [&](auto& p)
 				{
 					p.key = ledger.available_primary_key();
@@ -260,10 +238,10 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
-				});
 
+				});
 			}
-			//Account to Account
+//Account to Account
 			else if (condition6) {
 				print("Account to Account");
 				//decrease from account
@@ -292,7 +270,7 @@ class Ledger: public contract {
 				});
 
 			}
-			//Init Account
+//Init Account
 			else if (condition6) {
 				print("INIT");
 				//increase fromaccount
