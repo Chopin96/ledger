@@ -13,7 +13,7 @@ config = {
 eos = Eos(config)
 eos.contract('vtxledger').then(vtxledger =>{vtxledger.getblnc(
         {
-          "account":"",
+          "account":"vtxtrust",
           "tokey":"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",
         },
         {
