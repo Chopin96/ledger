@@ -19,7 +19,7 @@ rcrdtfr(account_name s, string fromaccount, string toaccount, uint amount, strin
 
 *Fields are of string and uint type only*
 
-###rcrdtfr(account_name s, string fromaccount, string toaccount, uint amount, string fromkey, string tokey) 
+### rcrdtfr(account_name s, string fromaccount, string toaccount, uint amount, string fromkey, string tokey) 
 *account_name, fromaccount and toaccount are mandatory fields*
 Specify a transfer from one account to another, and optionally with keys into that account (the keys
 being used for the trust account). So for example, if Alice purchased 100 VTX, the call would be:
@@ -36,7 +36,7 @@ where `A[k]` means a key `k` in the database of account `A`.
 
 `Alice` merely are symbols for long key.
 
-###getblnc(string account, string tokey) 
+### getblnc(string account, string tokey) 
 *account is mandatory field*
 
 Return the balance of a given account. For example, if I want to know how much is in Alice's trust
