@@ -47,13 +47,13 @@ account, I would call:
 `Trust` and `Alice` merely are symbols for long keys.
 
 ### `rtrvtxns(string account, string key, uint limit)`
-*account are mandatory fields*
+*account is a mandatory fields*
 
 Return the last `limit` transactions executed in the given account. For example, if I want to know
-the last 5 transactions in the Distrubtion account, I would call:
+the last 5 transactions in the vtxdistriburion account, I would call:
 
 `rtrvtxns("vtxdistribution", "", 5)`
 
-recalling again that `Distribution` is merely a symbol for long keys.
+recalling again that `vtxdistribution` is merely a symbol for long keys.
 
 
