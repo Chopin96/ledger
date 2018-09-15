@@ -1,6 +1,9 @@
 ﻿#include <eosiolib/eosio.hpp>
 #include <eosiolib/multi_index.hpp>
 #include <eosiolib/types.hpp>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 using namespace eosio;
 
@@ -36,7 +39,6 @@ class Ledger: public contract {
 				s.append("'amount'");
 				s.append(":");
 				s.append(std::to_string(item.amount));
-				s.append(", ");
 				s.append("}");
 				print(s.c_str());
 
@@ -45,7 +47,7 @@ class Ledger: public contract {
 		/// @abi action
 		void getblnc(std::string account, std::string tokey) {
 			int64_t amount = 0;
-
+			//always account name
 			if (tokey.compare("") == 0) {
 				for (auto& item : ledger) {
 					if (item.fromAccount.compare(account) == 0
@@ -55,17 +57,23 @@ class Ledger: public contract {
 				}
 			} else {
 				for (auto& item : ledger) {
-					if ((item.toAccount.compare(account) ||item.fromAccount.compare(account)) && (item.sToKey.compare(tokey) == 0 || item.fromKey.compare(tokey) == 0))
+					if ((item.fromAccount.compare(account) == 0
+							|| item.fromKey.compare(tokey) == 0))
+						amount += item.amount;
+				}
+				for (auto& item : ledger) {
+					if (item.sToKey.compare(tokey) == 0
+							|| item.toAccount.compare(account) == 0)
 						amount += item.amount;
 				}
 			}
-			amount = (uint64_t) amount;
-			int build = 1;
+
+			int build = 0;
 			std::string s;
 			s.append("{");
 			s.append("'amount'");
 			s.append(":");
-			s.append(std::to_string(amount));
+			s.append(std::to_string(abs(amount)));
 			s.append(", ");
 			s.append("'currency'");
 			s.append(":");
@@ -76,40 +84,45 @@ class Ledger: public contract {
 
 		/// @abi action
 		void retrvtxns(std::string account, std::string tokey, uint64_t limit) {
-			uint64_t lKey = string_to_name(tokey.c_str());
-			uint64_t amount = 0;
+
 			int i = 0;
+			uint64_t count = 1;
+			std::string str;
 
 			for (auto& item : ledger) {
-				std::string s;
-				s.append("{");
-				s.append("'fromaccount'");
-				s.append(":");
-				s.append(item.fromAccount);
-				s.append(", ");
-				s.append("'toaccount'");
-				s.append(":");
-				s.append(item.toAccount);
-				s.append(", ");
-				s.append("'fromkey'");
-				s.append(":");
-				s.append(item.fromKey);
-				s.append(", ");
-				s.append("'tokey'");
-				s.append(":");
-				s.append(item.sToKey);
-				s.append(", ");
-				s.append("'amount'");
-				s.append(":");
-				s.append(std::to_string(item.amount));
-				s.append(", ");
-				s.append("}");
-				print(s.c_str());
-				i++;
-				if (i == limit) {
+
+				str.append("{");
+				str.append("\"""fromaccount""\"");
+				str.append(":");
+				str.append("\"" + item.fromAccount + "\"");
+				str.append(",");
+				str.append("\"""toaccount""\"");
+				str.append(":");
+				str.append("\"" + item.toAccount + "\"");
+				str.append(",");
+				str.append("\"""fromkey""\"");
+				str.append(":");
+				str.append("\"" + item.fromKey + "\"");
+				str.append(",");
+				str.append("\"""tokey""\"");
+				str.append(":");
+				str.append("\"" + item.sToKey + "\"");
+				str.append(",");
+				str.append("\"""amount""\"");
+				str.append(":");
+				str.append("\"" + std::to_string(item.amount) + "\"");
+				str.append("}");
+				if (count >= limit)
 					break;
-				}
+				++count;
+				str.append(",");
 			}
+			std::string finalstring;
+			finalstring.append("[");
+			finalstring.append(str);
+			finalstring.append("]");
+			print(finalstring);
+
 		}
 
 		/// @abi action
@@ -156,6 +169,8 @@ class Ledger: public contract {
 			if (condition3) {
 				//decrease with fromkey
 				print("Wallet to Wallet");
+				//check for funds
+				//eosio_assert(getbalance(fromaccount,fromkey) <= amount, "Not enough funds in account");
 				ledger.emplace(get_self(), [&](auto& p)
 				{
 					p.key = ledger.available_primary_key();
@@ -184,6 +199,10 @@ class Ledger: public contract {
 			//Account to Wallet
 			else if (condition4) {
 				print("Account to Wallet");
+
+				//check for funds
+				eosio_assert(getbalance(fromaccount, "") >= amount,
+						"insufficient_funds");
 				//decrease with fromaccount
 				ledger.emplace(get_self(), [&](auto& p)
 				{
@@ -214,7 +233,18 @@ class Ledger: public contract {
 			//Wallet to account
 			else if (condition5) {
 				print("Wallet to account");
-				//decrease with fromkey
+				//decrease with fromaccount
+				//check for funds
+//				if (getbalance(fromaccount,"") >= 0){
+//					print("Insufficient funds");
+//					return;
+//				}
+
+				////eosio_assert(getbalance(fromaccount,"") <= 0, "Not enough funds in account"));
+				eosio_assert(getbalance(fromaccount, fromkey) >= amount,
+						"insufficient_funds");
+
+				//decrease with fromaccount
 				ledger.emplace(get_self(), [&](auto& p)
 				{
 					p.key = ledger.available_primary_key();
@@ -222,7 +252,7 @@ class Ledger: public contract {
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
 					p.toKey = lKey;
-					p.sToKey = tokey;
+					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
 
@@ -241,9 +271,12 @@ class Ledger: public contract {
 
 				});
 			}
-//Account to Account
+			//Account to Account
 			else if (condition6) {
 				print("Account to Account");
+
+				//check for funds
+				//eosio_assert(getbalance(fromaccount,"") >= amount, "Not enough funds in account");
 				//decrease from account
 				ledger.emplace(get_self(), [&](auto& p)
 				{
@@ -270,8 +303,8 @@ class Ledger: public contract {
 				});
 
 			}
-//Init Account
-			else if (condition6) {
+			//Init Account TODO: assign initially
+			else if (false) {
 				print("INIT");
 				//increase fromaccount
 				ledger.emplace(get_self(), [&](auto& p)
@@ -287,6 +320,32 @@ class Ledger: public contract {
 				});
 			}
 
+		}
+
+		int getbalance(std::string account, std::string tokey) {
+			int64_t amount = 0;
+			//always account name
+			if (tokey.compare("") == 0) {
+				for (auto& item : ledger) {
+					if (item.fromAccount.compare(account) == 0
+							|| item.toAccount.compare(account) == 0) {
+						amount += item.amount;
+					}
+				}
+			} else {
+				for (auto& item : ledger) {
+					if ((item.fromAccount.compare(account) == 0
+							|| item.fromKey.compare(tokey) == 0))
+						amount += item.amount;
+				}
+				for (auto& item : ledger) {
+					if (item.sToKey.compare(tokey) == 0
+							|| item.toAccount.compare(account) == 0)
+						amount += item.amount;
+				}
+			}
+
+			return amount;
 		}
 
 	private:

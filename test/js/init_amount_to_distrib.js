@@ -14,7 +14,7 @@ eos = Eos(config)
 eos.contract('vtxledger').then(vtxledger =>{vtxledger.rcrdtfr(
         {"s":"vtxledger",
         "fromaccount":"vtxdistrib",
-        "toaccount":"",
+        "toaccount":"vtxdistrib",
         "fromkey":"",
         "tokey":"",
         "amount":364000000000},

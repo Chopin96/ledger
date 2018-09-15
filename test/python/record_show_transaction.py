@@ -203,6 +203,18 @@ def rcrdtrf():
     object = '["vtxtrust", "",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
+#     print('Get transactions vtxdistrib')
+#     object = '["vtxdistrib", "", 4]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+#     print('Get transactions vtxtrust')
+#     object = '["vtxtrust", "", 4]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+    print('Get transactions wallet')
+    object = '["vtxdistrib", "", 10 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
     
 def testAccounToWallet():
     print('****************************************************')
@@ -250,7 +262,7 @@ def testAccounToWallet():
     print(str(out))
     print('****************************************************')
     print('Get Balance vtxtrust')
-    object = '["vtxtrust", "",]'
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
     

@@ -136,15 +136,6 @@ def setupContract():
     compileContract()
     order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/vtxledger/'
     setContractSteps()
-    object = '["vtxledger","vtxdistrib","", 364000000 , "", ""]'
-    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Get Balance vtxdistrib')
-    object = '["vtxdistrib", "",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    
 
 
 def rcrdtrf():
