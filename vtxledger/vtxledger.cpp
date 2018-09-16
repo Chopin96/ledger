@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <ctime>
 
 using namespace eosio;
 
@@ -39,6 +40,10 @@ class Ledger: public contract {
 				s.append("'amount'");
 				s.append(":");
 				s.append(std::to_string(item.amount));
+				s.append(", ");
+				s.append("'comment'");
+				s.append(":");
+				s.append(item.comment);
 				s.append("}");
 				print(s.c_str());
 
@@ -92,25 +97,29 @@ class Ledger: public contract {
 			for (auto& item : ledger) {
 
 				str.append("{");
-				str.append("\"""fromaccount""\"");
+				str.append("\"" "fromaccount" "\"");
 				str.append(":");
 				str.append("\"" + item.fromAccount + "\"");
 				str.append(",");
-				str.append("\"""toaccount""\"");
+				str.append("\"" "toaccount" "\"");
 				str.append(":");
 				str.append("\"" + item.toAccount + "\"");
 				str.append(",");
-				str.append("\"""fromkey""\"");
+				str.append("\"" "fromkey" "\"");
 				str.append(":");
 				str.append("\"" + item.fromKey + "\"");
 				str.append(",");
-				str.append("\"""tokey""\"");
+				str.append("\"" "tokey" "\"");
 				str.append(":");
 				str.append("\"" + item.sToKey + "\"");
 				str.append(",");
-				str.append("\"""amount""\"");
+				str.append("\"" "amount" "\"");
 				str.append(":");
 				str.append("\"" + std::to_string(item.amount) + "\"");
+				str.append(",");
+				str.append("\"" "comment" "\"");
+				str.append(":");
+				str.append("\"" + item.comment + "\"");
 				str.append("}");
 				if (count >= limit)
 					break;
@@ -128,12 +137,11 @@ class Ledger: public contract {
 		/// @abi action
 		void rcrdtfr(account_name s, std::string fromaccount,
 				std::string toaccount, uint64_t amount, std::string fromkey,
-				std::string tokey) {
+				std::string tokey, std::string comment) {
 
-//require_auth(s);
-			uint64_t lKey = string_to_name(tokey.c_str());
-			uint64_t lSecKey = string_to_name(toaccount.c_str());
-//eosio_assert(amount != 0, "amount needs to be greater than 0");
+			//require_auth(s);
+
+			//eosio_assert(amount != 0, "amount needs to be greater than 0");
 
 			bool condition1 = false;
 			bool condition2 = false;
@@ -177,10 +185,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
+					p.comment = comment;
 
 				});
 				//increase with toKey
@@ -190,10 +198,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = "";
 					p.toAccount = toaccount;
-					p.toKey = lKey;
 					p.sToKey = tokey;
 					p.fromKey = "";
 					p.amount = posAmount;
+					p.comment = comment;
 				});
 			}
 			//Account to Wallet
@@ -210,10 +218,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = negAmount;
+					p.comment = comment;
 
 				});
 				//increase with tokey
@@ -223,24 +231,16 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = "";
 					p.toAccount = toaccount;
-					p.toKey = lKey;
 					p.sToKey = tokey;
 					p.fromKey = "";
 					p.amount = posAmount;
+					p.comment = comment;
 
 				});
 			}
 			//Wallet to account
 			else if (condition5) {
 				print("Wallet to account");
-				//decrease with fromaccount
-				//check for funds
-//				if (getbalance(fromaccount,"") >= 0){
-//					print("Insufficient funds");
-//					return;
-//				}
-
-				////eosio_assert(getbalance(fromaccount,"") <= 0, "Not enough funds in account"));
 				eosio_assert(getbalance(fromaccount, fromkey) >= amount,
 						"insufficient_funds");
 
@@ -251,10 +251,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
+					p.comment = comment;
 
 				});
 				//increase with to account
@@ -264,10 +264,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = "";
 					p.toAccount = toaccount;
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
+					p.comment = comment;
 
 				});
 			}
@@ -284,10 +284,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = amount;
+					p.comment = comment;
 				});
 				//augment toaccount
 				ledger.emplace(get_self(), [&](auto& p)
@@ -296,10 +296,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = "";
 					p.toAccount = toaccount;
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
+					p.comment = comment;
 				});
 
 			}
@@ -313,10 +313,10 @@ class Ledger: public contract {
 					p.Id = ledger.available_primary_key();
 					p.fromAccount = fromaccount;
 					p.toAccount = "";
-					p.toKey = lKey;
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = 364000000000;
+					p.comment = comment;
 				});
 			}
 
@@ -361,7 +361,7 @@ class Ledger: public contract {
 				uint64_t toKey;
 				std::string fromKey;
 				int64_t amount;
-
+				std::string comment = "init";
 				uint64_t primary_key() const {
 					return key;
 				}
