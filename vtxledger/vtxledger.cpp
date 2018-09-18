@@ -61,7 +61,7 @@ class Ledger: public contract {
 		}
 		bool accountExists(std::string account) {
 			for (auto& item : ledger) {
-				if(item.fromAccount.compare(account) == 0) {
+				if (item.fromAccount.compare(account) == 0) {
 					return true;
 				}
 				if (item.toAccount.compare(account) == 0) {
@@ -118,72 +118,109 @@ class Ledger: public contract {
 			std::string finalstring;
 			finalstring.append("[");
 
-			if (limit != 0  && (accountExists(account)  || (keyExists(tokey) && tokey.compare("") != 0))){
-				for (auto& item : ledger) {
-					if (tokey.empty()) {
-						//retreive by account
-						if (item.toAccount.compare(account) == 0
-						|| item.fromAccount.compare(account) == 0) {
-							str.append("{");
-							str.append("\"" "fromaccount" "\"");
-							str.append(":");
-							str.append("\"" + item.fromAccount + "\"");
-							str.append(",");
-							str.append("\"" "toaccount" "\"");
-							str.append(":");
-							str.append("\"" + item.toAccount + "\"");
-							str.append(",");
-							str.append("\"" "fromkey" "\"");
-							str.append(":");
-							str.append("\"" + item.fromKey + "\"");
-							str.append(",");
-							str.append("\"" "tokey" "\"");
-							str.append(":");
-							str.append("\"" + item.sToKey + "\"");
-							str.append(",");
-							str.append("\"" "amount" "\"");
-							str.append(":");
-							str.append("\"" + std::to_string(item.amount) + "\"");
-							str.append(",");
-							str.append("\"" "comment" "\"");
-							str.append(":");
-							str.append("\"" + item.comment + "\"");
-							str.append("}");
-							str.append(",");
-						}
-					} else {
-						if (item.sToKey.compare(tokey) == 0
-								|| item.fromKey.compare(tokey) == 0) {
-							str.append("{");
-							str.append("\"" "fromaccount" "\"");
-							str.append(":");
-							str.append("\"" + item.fromAccount + "\"");
-							str.append(",");
-							str.append("\"" "toaccount" "\"");
-							str.append(":");
-							str.append("\"" + item.toAccount + "\"");
-							str.append(",");
-							str.append("\"" "fromkey" "\"");
-							str.append(":");
-							str.append("\"" + item.fromKey + "\"");
-							str.append(",");
-							str.append("\"" "tokey" "\"");
-							str.append(":");
-							str.append("\"" + item.sToKey + "\"");
-							str.append(",");
-							str.append("\"" "amount" "\"");
-							str.append(":");
-							str.append("\"" + std::to_string(item.amount) + "\"");
-							str.append(",");
-							str.append("\"" "comment" "\"");
-							str.append(":");
-							str.append("\"" + item.comment + "\"");
-							str.append("}");
-							str.append(",");
-						}
-					}
-					if (count == limit) {
+			if (limit != 0 && accountExists(account) && (keyExists(tokey) && tokey.compare("") != 0)) {
 
+				for (auto& item : ledger) {
+					//if (tokey.empty()) {
+
+//						if (item.toAccount.compare(account) == 0
+//								|| item.fromAccount.compare(account) == 0) {
+							str.append("{");
+							str.append("\"" "fromaccount" "\"");
+							str.append(":");
+							str.append("\"" + item.fromAccount + "\"");
+							str.append(",");
+							str.append("\"" "toaccount" "\"");
+							str.append(":");
+							str.append("\"" + item.toAccount + "\"");
+							str.append(",");
+							str.append("\"" "fromkey" "\"");
+							str.append(":");
+							str.append("\"" + item.fromKey + "\"");
+							str.append(",");
+							str.append("\"" "tokey" "\"");
+							str.append(":");
+							str.append("\"" + item.sToKey + "\"");
+							str.append(",");
+							str.append("\"" "amount" "\"");
+							str.append(":");
+							str.append("\"" + std::to_string(item.amount) + "\"");
+							str.append(",");
+							str.append("\"" "comment" "\"");
+							str.append(":");
+							str.append("\"" + item.comment + "\"");
+							str.append(",");
+							str.append("\"" "nonce" "\"");
+							str.append(":");
+							str.append("\"" + item.nonce + "\"");
+							str.append("}");
+							str.append(",");
+						//}
+//					} else if (item.sToKey.compare(tokey) == 0
+//								|| item.fromKey.compare(tokey) == 0) {
+//							str.append("{");
+//							str.append("\"" "fromaccount" "\"");
+//							str.append(":");
+//							str.append("\"" + item.fromAccount + "\"");
+//							str.append(",");
+//							str.append("\"" "toaccount" "\"");
+//							str.append(":");
+//							str.append("\"" + item.toAccount + "\"");
+//							str.append(",");
+//							str.append("\"" "fromkey" "\"");
+//							str.append(":");
+//							str.append("\"" + item.fromKey + "\"");
+//							str.append(",");
+//							str.append("\"" "tokey" "\"");
+//							str.append(":");
+//							str.append("\"" + item.sToKey + "\"");
+//							str.append(",");
+//							str.append("\"" "amount" "\"");
+//							str.append(":");
+//							str.append("\"" + std::to_string(item.amount) + "\"");
+//							str.append(",");
+//							str.append("\"" "comment" "\"");
+//							str.append(":");
+//							str.append("\"" + item.comment + "\"");
+//							str.append(",");
+//							str.append("\"" "nonce" "\"");
+//							str.append(":");
+//							str.append("\"" + item.nonce + "\"");
+//							str.append("}");
+//							str.append(",");
+//						}
+						//retreive by account
+//						if (item.toAccount.compare(account) == 0
+//								|| item.fromAccount.compare(account) == 0) {
+//							str.append("{");
+//							str.append("\"" "fromaccount" "\"");
+//							str.append(":");
+//							str.append("\"" + item.fromAccount + "\"");
+//							str.append(",");
+//							str.append("\"" "toaccount" "\"");
+//							str.append(":");
+//							str.append("\"" + item.toAccount + "\"");
+//							str.append(",");
+//							str.append("\"" "fromkey" "\"");
+//							str.append(":");
+//							str.append("\"" + item.fromKey + "\"");
+//							str.append(",");
+//							str.append("\"" "tokey" "\"");
+//							str.append(":");
+//							str.append("\"" + item.sToKey + "\"");
+//							str.append(",");
+//							str.append("\"" "amount" "\"");
+//							str.append(":");
+//							str.append("\"" + std::to_string(item.amount) + "\"");
+//							str.append(",");
+//							str.append("\"" "comment" "\"");
+//							str.append(":");
+//							str.append("\"" + item.comment + "\"");
+//							str.append("}");
+//							str.append(",");
+//						}
+
+					if (count == limit) {
 						break;
 					}
 					count++;
@@ -191,256 +228,259 @@ class Ledger: public contract {
 				finalstring.append(str);
 				finalstring.append("]");
 				print(finalstring);
-			}else{
+			} else {
 				finalstring.append("]");
 				print(finalstring);
 			}
-	}
+		}
+
 
 /// @abi action
-	void rcrdtfr(account_name s, std::string fromaccount, std::string toaccount,
-			uint64_t amount, std::string fromkey, std::string tokey,
-			std::string comment, std::string nonce) {
+		void rcrdtfr(account_name s, std::string fromaccount,
+				std::string toaccount, uint64_t amount, std::string fromkey,
+				std::string tokey, std::string comment, std::string nonce) {
 
 //require_auth(s);
 
 //eosio_assert(amount != 0, "amount needs to be greater than 0");
 
-		bool condition1 = false;
-		bool condition2 = false;
-		bool condition3 = false;
-		bool condition4 = false;
-		bool condition5 = false;
-		bool condition6 = false;
+			bool condition1 = false;
+			bool condition2 = false;
+			bool condition3 = false;
+			bool condition4 = false;
+			bool condition5 = false;
+			bool condition6 = false;
 
-		//All fields missing - No transaction
-		condition1 = !fromaccount.empty() && !toaccount.empty()
-				&& !fromkey.empty() && !tokey.empty();
-		eosio_assert(!condition1, "all_fields_missing");
-		//2 first fields missing - No transaction
-		condition2 = fromaccount.empty() || toaccount.empty();
-		//eosio_assert(!condition2, "missing toaccount or fromaccount or both");
+			//All fields missing - No transaction
+			condition1 = !fromaccount.empty() && !toaccount.empty()
+					&& !fromkey.empty() && !tokey.empty();
+			eosio_assert(!condition1, "all_fields_missing");
+			//2 first fields missing - No transaction
+			condition2 = fromaccount.empty() || toaccount.empty();
+			//eosio_assert(!condition2, "missing toaccount or fromaccount or both");
 
-		//All fields full - Wallet to Wallet
-		condition3 = !fromkey.empty() && !tokey.empty();
+			//All fields full - Wallet to Wallet
+			condition3 = !fromkey.empty() && !tokey.empty();
 
-		//fromkey field missing - Account to Wallet
-		condition4 = fromkey.empty() && !tokey.empty();
+			//fromkey field missing - Account to Wallet
+			condition4 = fromkey.empty() && !tokey.empty();
 
-		//tokey field missing - Wallet to Account
-		condition5 = !fromkey.empty() && tokey.empty();
+			//tokey field missing - Wallet to Account
+			condition5 = !fromkey.empty() && tokey.empty();
 
-		//tokey fields missing - Account to Account
-		condition6 = fromkey.empty() && tokey.empty();
+			//tokey fields missing - Account to Account
+			condition6 = fromkey.empty() && tokey.empty();
 
-		int64_t negAmount = -1 * amount;
-		int64_t posAmount = amount;
+			int64_t negAmount = -1 * amount;
+			int64_t posAmount = amount;
 //Wallet to Wallet
-		if (condition3) {
-			//decrease with fromkey
-			print("Wallet to Wallet");
-			//check for funds
-			eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = fromaccount;
-				p.toAccount = "";
-				p.sToKey = "";
-				p.fromKey = fromkey;
-				p.amount = negAmount;
-				p.comment = comment;
-				p.nonce = nonce;
+			if (condition3) {
+				//decrease with fromkey
+				print("Wallet to Wallet");
+				//check for funds
+				eosio_assert(getbalance(fromaccount, "") >= amount,
+						"insufficient_funds");
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = fromaccount;
+					p.toAccount = "";
+					p.sToKey = "";
+					p.fromKey = fromkey;
+					p.amount = negAmount;
+					p.comment = comment;
+					p.nonce = nonce;
 
-			});
-			//increase with sToKey
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = "";
-				p.toAccount = toaccount;
-				p.sToKey = tokey;
-				p.fromKey = "";
-				p.amount = posAmount;
-				p.comment = comment;
-				p.nonce = nonce;
-			});
-		}
-		//Account to Wallet
-		else if (condition4) {
-			print("Account to Wallet");
+				});
+				//increase with sToKey
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = "";
+					p.toAccount = toaccount;
+					p.sToKey = tokey;
+					p.fromKey = "";
+					p.amount = posAmount;
+					p.comment = comment;
+					p.nonce = nonce;
+				});
+			}
+			//Account to Wallet
+			else if (condition4) {
+				print("Account to Wallet");
 
-			//check for funds
-			eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
-			//decrease with fromaccount
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = fromaccount;
-				p.toAccount = "";
-				p.sToKey = "";
-				p.fromKey = "";
-				p.amount = negAmount;
-				p.comment = comment;
-				p.nonce = nonce;
+				//check for funds
+				eosio_assert(getbalance(fromaccount, "") >= amount,
+						"insufficient_funds");
+				//decrease with fromaccount
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = fromaccount;
+					p.toAccount = "";
+					p.sToKey = "";
+					p.fromKey = "";
+					p.amount = negAmount;
+					p.comment = comment;
+					p.nonce = nonce;
 
-			});
-			//increase with tokey
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = "";
-				p.toAccount = toaccount;
-				p.sToKey = tokey;
-				p.fromKey = "";
-				p.amount = posAmount;
-				p.comment = comment;
-				p.nonce = nonce;
+				});
+				//increase with tokey
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = "";
+					p.toAccount = toaccount;
+					p.sToKey = tokey;
+					p.fromKey = "";
+					p.amount = posAmount;
+					p.comment = comment;
+					p.nonce = nonce;
 
-			});
-		}
-		//Wallet to account
-		else if (condition5) {
-			print("Wallet to account");
-			eosio_assert(getbalance(fromaccount, fromkey) >= amount, "insufficient_funds");
+				});
+			}
+			//Wallet to account
+			else if (condition5) {
+				print("Wallet to account");
+				eosio_assert(getbalance(fromaccount, fromkey) >= amount,
+						"insufficient_funds");
 
-			//decrease with fromaccount
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = fromaccount;
-				p.toAccount = "";
-				p.sToKey = "";
-				p.fromKey = fromkey;
-				p.amount = negAmount;
-				p.comment = comment;
-				p.nonce = nonce;
+				//decrease with fromaccount
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = fromaccount;
+					p.toAccount = "";
+					p.sToKey = "";
+					p.fromKey = fromkey;
+					p.amount = negAmount;
+					p.comment = comment;
+					p.nonce = nonce;
 
-			});
-			//increase with to account
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = "";
-				p.toAccount = toaccount;
-				p.sToKey = "";
-				p.fromKey = "";
-				p.amount = posAmount;
-				p.comment = comment;
-				p.nonce = nonce;
+				});
+				//increase with to account
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = "";
+					p.toAccount = toaccount;
+					p.sToKey = "";
+					p.fromKey = "";
+					p.amount = posAmount;
+					p.comment = comment;
+					p.nonce = nonce;
 
-			});
-		}
-		//Account to Account
-		else if (condition6) {
-			print("Account to Account");
-			//eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
-			//check for funds
-			//eosio_assert(getbalance(fromaccount,"") >= amount, "Not enough funds in account");
-			//decrease from account
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = fromaccount;
-				p.toAccount = "";
-				p.sToKey = "";
-				p.fromKey = "";
-				p.amount = amount;
-				p.comment = comment;
-				p.nonce = nonce;
-			});
-			//augment toaccount
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = "";
-				p.toAccount = toaccount;
-				p.sToKey = "";
-				p.fromKey = "";
-				p.amount = posAmount;
-				p.comment = comment;
-				p.nonce = nonce;
-			});
+				});
+			}
+			//Account to Account
+			else if (condition6) {
+				print("Account to Account");
+				//eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
+				//check for funds
+				//eosio_assert(getbalance(fromaccount,"") >= amount, "Not enough funds in account");
+				//decrease from account
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = fromaccount;
+					p.toAccount = "";
+					p.sToKey = "";
+					p.fromKey = "";
+					p.amount = amount;
+					p.comment = comment;
+					p.nonce = nonce;
+				});
+				//augment toaccount
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = "";
+					p.toAccount = toaccount;
+					p.sToKey = "";
+					p.fromKey = "";
+					p.amount = posAmount;
+					p.comment = comment;
+					p.nonce = nonce;
+				});
 
-		}
+			}
 //Init Account TODO: assign initially
-		else if (false) {
-			print("INIT");
-			//increase fromaccount
-			ledger.emplace(get_self(), [&](auto& p)
-			{
-				p.key = ledger.available_primary_key();
-				p.Id = ledger.available_primary_key();
-				p.fromAccount = fromaccount;
-				p.toAccount = "";
-				p.sToKey = "";
-				p.fromKey = "";
-				p.amount = 364000000000;
-				p.comment = comment;
-			});
+			else if (false) {
+				print("INIT");
+				//increase fromaccount
+				ledger.emplace(get_self(), [&](auto& p)
+				{
+					p.key = ledger.available_primary_key();
+					p.Id = ledger.available_primary_key();
+					p.fromAccount = fromaccount;
+					p.toAccount = "";
+					p.sToKey = "";
+					p.fromKey = "";
+					p.amount = 364000000000;
+					p.comment = comment;
+				});
+			}
 		}
-	}
 
-	int getbalance(std::string account, std::string tokey) {
-		int64_t amount = 0;
-		//always account name
-		if (tokey.compare("") == 0) {
-			for (auto& item : ledger) {
-				if (item.fromAccount.compare(account) == 0
-						|| item.toAccount.compare(account) == 0) {
-					amount += item.amount;
+		int getbalance(std::string account, std::string tokey) {
+			int64_t amount = 0;
+			//always account name
+			if (tokey.compare("") == 0) {
+				for (auto& item : ledger) {
+					if (item.fromAccount.compare(account) == 0
+							|| item.toAccount.compare(account) == 0) {
+						amount += item.amount;
+					}
+				}
+			} else {
+				for (auto& item : ledger) {
+					if ((item.fromAccount.compare(account) == 0
+							|| item.fromKey.compare(tokey) == 0))
+						amount += item.amount;
+				}
+				for (auto& item : ledger) {
+					if (item.sToKey.compare(tokey) == 0
+							|| item.toAccount.compare(account) == 0)
+						amount += item.amount;
 				}
 			}
-		} else {
-			for (auto& item : ledger) {
-				if ((item.fromAccount.compare(account) == 0
-						|| item.fromKey.compare(tokey) == 0))
-					amount += item.amount;
-			}
-			for (auto& item : ledger) {
-				if (item.sToKey.compare(tokey) == 0
-						|| item.toAccount.compare(account) == 0)
-					amount += item.amount;
-			}
+			return amount;
 		}
-		return amount;
-	}
 
-private:
+	private:
 
 /// @abi table
-	struct entry {
-			account_name s;
-			uint64_t key;
-			uint64_t Id;
-			std::string sToKey;
-			std::string fromAccount;
-			std::string toAccount;
-			uint64_t toKey;
-			std::string fromKey;
-			int64_t amount;
-			std::string comment;
-			std::string nonce;
-			uint64_t primary_key() const {
-				return key;
-			}
-			uint64_t by_Id() const {
-				return Id;
-			}
+		struct entry {
+				account_name s;
+				uint64_t key = 0;
+				uint64_t Id = 0;
+				std::string sToKey = "";
+				std::string fromAccount = "";
+				std::string toAccount = "";
+				std::string fromKey = "";
+				int64_t amount = 0;
+				std::string comment = "";
+				std::string nonce = "";
+				uint64_t primary_key() const {
+					return key;
+				}
+				uint64_t by_Id() const {
+					return Id;
+				}
 
-	};
-	typedef eosio::multi_index<N(entry), entry,
-			indexed_by<N(Id), const_mem_fun<entry, uint64_t, &entry::by_Id>>> ledgertable;
+		};
+		typedef eosio::multi_index<N(entry), entry,
+				indexed_by<N(Id), const_mem_fun<entry, uint64_t, &entry::by_Id>>> ledgertable;
 
-	ledgertable ledger;
+		ledgertable ledger;
 
 };
 
