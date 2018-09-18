@@ -116,13 +116,17 @@ class Ledger: public contract {
 			uint64_t count = 1;
 			std::string str;
 			std::string finalstring;
-			finalstring.append("[");
+			str.append("[");
+			//accountExists(account)
+			//!(keyExists(tokey)
+			if (limit != 0 && account != "") {
 
-			if (limit != 0 && accountExists(account) && (keyExists(tokey) && tokey.compare("") != 0)) {
+				for	 (auto& item : ledger) {
+					if(!keyExists(tokey)|| !accountExists(account))
+						break;
 
-				for (auto& item : ledger) {
-					//if (tokey.empty()) {
-
+					//					if (tokey.empty()) {
+//
 //						if (item.toAccount.compare(account) == 0
 //								|| item.fromAccount.compare(account) == 0) {
 							str.append("{");
@@ -149,15 +153,16 @@ class Ledger: public contract {
 							str.append("\"" "comment" "\"");
 							str.append(":");
 							str.append("\"" + item.comment + "\"");
-							str.append(",");
-							str.append("\"" "nonce" "\"");
-							str.append(":");
-							str.append("\"" + item.nonce + "\"");
+//							str.append(",");
+//							str.append("\"" "nonce" "\"");
+//							str.append(":");
+//							str.append("\"" + item.nonce + "\"");
 							str.append("}");
-							str.append(",");
-						//}
-//					} else if (item.sToKey.compare(tokey) == 0
-//								|| item.fromKey.compare(tokey) == 0) {
+
+//
+//						}
+//					} else {
+//						if (item.sToKey == tokey || item.fromKey == tokey) {
 //							str.append("{");
 //							str.append("\"" "fromaccount" "\"");
 //							str.append(":");
@@ -187,53 +192,60 @@ class Ledger: public contract {
 //							str.append(":");
 //							str.append("\"" + item.nonce + "\"");
 //							str.append("}");
-//							str.append(",");
+//							//str.append(",");
+//							//if (item.toAccount  == account
+//								//	|| item.fromAccount == account) {
+//								str.append("{");
+//								str.append("\"" "fromaccount" "\"");
+//								str.append(":");
+//								str.append("\"" + item.fromAccount + "\"");
+//								str.append(",");
+//								str.append("\"" "toaccount" "\"");
+//								str.append(":");
+//								str.append("\"" + item.toAccount + "\"");
+//								str.append(",");
+//								str.append("\"" "fromkey" "\"");
+//								str.append(":");
+//								str.append("\"" + item.fromKey + "\"");
+//								str.append(",");
+//								str.append("\"" "tokey" "\"");
+//								str.append(":");
+//								str.append("\"" + item.sToKey + "\"");
+//								str.append(",");
+//								str.append("\"" "amount" "\"");
+//								str.append(":");
+//								str.append("\"" + std::to_string(item.amount) + "\"");
+//								str.append(",");
+//								str.append("\"" "comment" "\"");
+//								str.append(":");
+//								str.append("\"" + item.comment + "\"");
+//								str.append(",");
+//								str.append("\"" "nonce" "\"");
+//								str.append(":");
+//								str.append("\"" + item.nonce + "\"");
+//								str.append("}");
+//
+//							}
+//
 //						}
-						//retreive by account
-//						if (item.toAccount.compare(account) == 0
-//								|| item.fromAccount.compare(account) == 0) {
-//							str.append("{");
-//							str.append("\"" "fromaccount" "\"");
-//							str.append(":");
-//							str.append("\"" + item.fromAccount + "\"");
-//							str.append(",");
-//							str.append("\"" "toaccount" "\"");
-//							str.append(":");
-//							str.append("\"" + item.toAccount + "\"");
-//							str.append(",");
-//							str.append("\"" "fromkey" "\"");
-//							str.append(":");
-//							str.append("\"" + item.fromKey + "\"");
-//							str.append(",");
-//							str.append("\"" "tokey" "\"");
-//							str.append(":");
-//							str.append("\"" + item.sToKey + "\"");
-//							str.append(",");
-//							str.append("\"" "amount" "\"");
-//							str.append(":");
-//							str.append("\"" + std::to_string(item.amount) + "\"");
-//							str.append(",");
-//							str.append("\"" "comment" "\"");
-//							str.append(":");
-//							str.append("\"" + item.comment + "\"");
-//							str.append("}");
-//							str.append(",");
-//						}
+
+					//}
 
 					if (count == limit) {
 						break;
 					}
 					count++;
+					str.append(",");
 				}
-				finalstring.append(str);
-				finalstring.append("]");
-				print(finalstring);
+				//finalstring.append(str);
+				str.append("]");
+				//finalstring = "[" + str + "]";
+				print(str);
 			} else {
 				finalstring.append("]");
 				print(finalstring);
 			}
 		}
-
 
 /// @abi action
 		void rcrdtfr(account_name s, std::string fromaccount,
@@ -289,7 +301,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 
 				});
@@ -303,7 +315,7 @@ class Ledger: public contract {
 					p.sToKey = tokey;
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 				});
 			}
@@ -324,7 +336,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = negAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 
 				});
@@ -338,7 +350,7 @@ class Ledger: public contract {
 					p.sToKey = tokey;
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 
 				});
@@ -359,7 +371,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 
 				});
@@ -373,7 +385,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 
 				});
@@ -394,7 +406,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = amount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 				});
 				//augment toaccount
@@ -407,7 +419,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = comment;
+					p.comment = nonce;
 					p.nonce = nonce;
 				});
 
