@@ -23,7 +23,8 @@ class BlockChain():
         #self.producer = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.comi:8888"
         self.producerWallets = "http://ec2-35-182-243-31.ca-central-1.compute.amazonaws.com:8900"
         self.producer = "http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888"
-
+        #self.producer = "http://39.108.231.157:30065"
+       
 class Account():
     def __init__(self):
         self.name = ""
@@ -145,76 +146,152 @@ def retrvtxns():
 
 
 def rcrdtrf():
-    print('****************************************************')
-    print('****************************************************')
+    print('*********************')
     print('Get Balance vtxdisrib')
     object = '["vtxdistrib", "",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
-    print('****************************************************')
+    print('********************')
     print('Get Balance vtxtrust')
     object = '["vtxtrust", "",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
-    print('****************************************************')
+    print('******************')
     print('Get Balance Wallet')
     object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
-    print('****************************************************')
-    print('****************************************************')
+    print('*****************')
     print('Account to wallet')
-    object = '["vtxledger", "vtxdistrib", "vtxtrust", 50, "", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "test"]'
+    object = '["vtxledger", "vtxdistrib", "vtxtrust", 50, "", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "test", "nonce"]'
     out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
-    print('****************************************************')
-    print('Get Balance Wallet')
-    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Get Balance vtxdistrib')
-    object = '["vtxdistrib", "",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Get Balance vtxtrust')
-    object = '["vtxtrust", "",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Wallet to Account')
-    object = '["vtxledger", "vtxtrust", "vtxdistrib", 50,"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "", "test"]'
-    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('****************************************************')
-    print('Get Balance Wallet')
-    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN"]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Get Balance vtxdistrib')
-    object = '["vtxdistrib", "",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Get Balance vtxtrust')
-    object = '["vtxtrust", "",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
-    print(str(out))
+    print('****************')
+#     print('Get Balance Wallet')
+#     object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+      #print("                                                                                                                                                            ");  
+#     print('************************************************************************************************************************************************************')
+#     print('Get Balance vtxdistrib')
+#     object = '["vtxdistrib", "",]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+#     print('************************************************************************************************************************************************************')
+#     print("                                                                                                                                                            ");  
+      #print('Get Balance vtxtrust')
+#     object = '["vtxtrust", "",]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+#     print('************************************************************************************************************************************************************')
+#     print("                                                                                                                                                            ");  
+      #print('Wallet to Account')
+#     object = '["vtxledger", "vtxtrust", "vtxdistrib", 50,"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "", "test"]'
+#     out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+#     print("                                                                                                                                                            ");  
+#     print('************************************************************************************************************************************************************')  
+#     print("                                                                                                                                                            ");  
+#     print('Get Balance Wallet')
+#     object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3YTDGYa728G3UDYxGkTY15mad97M4JhzN"]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+#     print('************************************************************************************************************************************************************')
+#     print("                                                                                                                                                            ");  
+#     print('Get Balance vtxdistrib')
+#     object = '["vtxdistrib", "",]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
+#     print('************************************************************************************************************************************************************')
+#     print("                                                                                                                                                            ");  
+# print("                                                                                                                                                            ");  
+#     print('Get Balance vtxtrust')
+#     object = '["vtxtrust", "",]'
+#     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'vtxledger' + '@active'])
+#     print(str(out))
 #     print('Get transactions vtxdistrib')
 #     object = '["vtxdistrib", "", 4]'
 #     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
 #     print(str(out))
+#print("                                                                                                                                                            ");  
 #     print('Get transactions vtxtrust')
 #     object = '["vtxtrust", "", 4]'
+#print("                                                                                                                                                            ");  
 #     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
 #     print(str(out))
-    print('Get transactions wallet')
-    object = '["vtxdistrib", "", 30 ]'                                                                                    
+    print("                                                                                                                                                            ");  
+    print('************************************************************************************************************************************************************')
+    print('1. Get transactions account')
+    object = '["vtxdistrib", "", 4 ]'                                                                                    
+    print('************************************************************************************************************************************************************')
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
     print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('2. Get transactions - wallet and account')
+    print('************************************************************************************************************************************************************')
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 4 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('3. Get transactions - no wallet, no account')
+    print('************************************************************************************************************************************************************')
+    object = '["", "", 4]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('4. Get transactions - no wallet, no account')
+    print('************************************************************************************************************************************************************')
+    object = '["", "", 4 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('5. Get transactions - key does not exist')
+    print('************************************************************************************************************************************************************')
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAduPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 4 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('6. Get transactions - distrib account and key')
+    print('************************************************************************************************************************************************************')
+    object = '["vtxdistrib", "EOS62L2r4FqnCbHAduPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 4 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('7. Get transactions - distrib account')
+    print('************************************************************************************************************************************************************')
+    object = '["vtxdistrib", "EOS62L2r4FqnCbHAduPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 4 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('8. et transactions - dunno account')
+    print('************************************************************************************************************************************************************')
+    object = '["vtxrocks", "EOS62L2r4FqnCbHAduPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 4 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
+    print('9. Get transactions - Too many transactions')
+    print('************************************************************************************************************************************************************')
+    object = '["vtxtrust", "EOS62L2r4FqnCbHAduPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 110000 ]'                                                                                    
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'retrvtxns', object, '-p', 'vtxledger' + '@active'])
+    print(str(out))
+    print("                                                                                                                                                            ");
+    print("                                                                                                                                                            ");
+    print('************************************************************************************************************************************************************')
     
 def testAccounToWallet():
     print('****************************************************')

@@ -1,4 +1,4 @@
-﻿#include <eosiolib/eosio.hpp>
+#include <eosiolib/eosio.hpp>
 #include <eosiolib/multi_index.hpp>
 #include <eosiolib/types.hpp>
 #include <string>
@@ -12,7 +12,9 @@ class Ledger: public contract {
 	public:
 		Ledger(account_name s) :
 				contract(s), ledger(s, s) {
+
 		}
+
 		/// @abi action
 		void getentries() {
 			int64_t amount = 0;
@@ -48,24 +50,21 @@ class Ledger: public contract {
 		}
 		bool keyExists(std::string key) {
 			for (auto& item : ledger) {
-				if (item.sToKey.compare(key) == 0) {
+				if (item.sToKey.compare(key) == 0 || item.fromKey.compare(key) == 0) {
 					return true;
 				}
-				for (auto& item : ledger) {
-					if (item.fromKey.compare(key) == 0) {
-						return true;
-					}
+				else{
+					return false;
 				}
 			}
 			return false;
 		}
 		bool accountExists(std::string account) {
 			for (auto& item : ledger) {
-				if(item.fromAccount.compare(account) == 0) {
+				if (item.fromAccount.compare(account) == 0 || item.toAccount.compare(account) == 0) {
 					return true;
-				}
-				if (item.toAccount.compare(account) == 0) {
-					return true;
+				}else{
+					return false;
 				}
 			}
 			return false;
@@ -213,24 +212,25 @@ class Ledger: public contract {
 		bool condition5 = false;
 		bool condition6 = false;
 
-		//All fields missing - No transaction
+//All fields missing - No transaction
 		condition1 = !fromaccount.empty() && !toaccount.empty()
 				&& !fromkey.empty() && !tokey.empty();
-		eosio_assert(!condition1, "all_fields_missing");
-		//2 first fields missing - No transaction
-		condition2 = fromaccount.empty() || toaccount.empty();
-		//eosio_assert(!condition2, "missing toaccount or fromaccount or both");
 
-		//All fields full - Wallet to Wallet
+//eosio_assert(condition1, "all fields missing");
+//2 first fields missing - No transaction
+		condition2 = fromaccount.empty() || toaccount.empty();
+//eosio_assert(condition2, "missing toaccount or fromaccount or both");
+
+//All fields full - Wallet to Wallet
 		condition3 = !fromkey.empty() && !tokey.empty();
 
-		//fromkey field missing - Account to Wallet
+//fromkey field missing - Account to Wallet
 		condition4 = fromkey.empty() && !tokey.empty();
 
-		//tokey field missing - Wallet to Account
+//tokey field missing - Wallet to Account
 		condition5 = !fromkey.empty() && tokey.empty();
 
-		//tokey fields missing - Account to Account
+//tokey fields missing - Account to Account
 		condition6 = fromkey.empty() && tokey.empty();
 
 		int64_t negAmount = -1 * amount;
@@ -240,7 +240,7 @@ class Ledger: public contract {
 			//decrease with fromkey
 			print("Wallet to Wallet");
 			//check for funds
-			eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
+			//eosio_assert(getbalance(fromaccount,fromkey) <= amount, "Not enough funds in account");
 			ledger.emplace(get_self(), [&](auto& p)
 			{
 				p.key = ledger.available_primary_key();
@@ -273,7 +273,8 @@ class Ledger: public contract {
 			print("Account to Wallet");
 
 			//check for funds
-			eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
+			eosio_assert(getbalance(fromaccount, "") >= amount,
+					"insufficient_funds");
 			//decrease with fromaccount
 			ledger.emplace(get_self(), [&](auto& p)
 			{
@@ -303,10 +304,11 @@ class Ledger: public contract {
 
 			});
 		}
-		//Wallet to account
+//Wallet to account
 		else if (condition5) {
 			print("Wallet to account");
-			eosio_assert(getbalance(fromaccount, fromkey) >= amount, "insufficient_funds");
+			eosio_assert(getbalance(fromaccount, fromkey) >= amount,
+					"insufficient_funds");
 
 			//decrease with fromaccount
 			ledger.emplace(get_self(), [&](auto& p)
@@ -337,10 +339,10 @@ class Ledger: public contract {
 
 			});
 		}
-		//Account to Account
+//Account to Account
 		else if (condition6) {
 			print("Account to Account");
-			//eosio_assert(getbalance(fromaccount, "") >= amount, "insufficient_funds");
+
 			//check for funds
 			//eosio_assert(getbalance(fromaccount,"") >= amount, "Not enough funds in account");
 			//decrease from account
@@ -387,11 +389,12 @@ class Ledger: public contract {
 				p.comment = comment;
 			});
 		}
+
 	}
 
 	int getbalance(std::string account, std::string tokey) {
 		int64_t amount = 0;
-		//always account name
+//always account name
 		if (tokey.compare("") == 0) {
 			for (auto& item : ledger) {
 				if (item.fromAccount.compare(account) == 0
@@ -411,6 +414,7 @@ class Ledger: public contract {
 					amount += item.amount;
 			}
 		}
+
 		return amount;
 	}
 

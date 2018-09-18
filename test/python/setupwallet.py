@@ -135,7 +135,7 @@ def setupContract():
     importKeys()
     account.name = 'vtxledger'
     createAccount()
-    #order.contract = os.environ['HOME'] + '/ledger/vtxledger/'
+    #order.contract = os.environ['HOME'] + '/eclipse/workspace/ledger/vtxledger/'
     #setContractSteps()
 
 

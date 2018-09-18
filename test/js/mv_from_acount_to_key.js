@@ -15,9 +15,11 @@ eos.contract('vtxledger').then(vtxledger =>{vtxledger.rcrdtfr(
         {"s":"vtxledger",
         "fromaccount":"vtxdistrib",
         "toaccount":"vtxtrust",
+        "amount":10000,
         "fromkey":"",
         "tokey":"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN",
-        "amount":10000},
+	"comment":"mofo",
+	}, 
         {
          'authorization':['vtxledger@active']
         }).then(result =>{console.log(JSON.stringify(result,null,2))})
