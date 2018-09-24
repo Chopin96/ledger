@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Sep 23 22:21:54 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Sep 24 11:13:04 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -85,11 +85,6 @@
                     "type": "string"
                 }
             ]
-        },
-        {
-            "name": "test",
-            "base": "",
-            "fields": []
         }
     ],
     "types": [],
@@ -97,11 +92,6 @@
         {
             "name": "rcrdtfr",
             "type": "rcrdtfr",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "test",
-            "type": "test",
             "ricardian_contract": ""
         }
     ],

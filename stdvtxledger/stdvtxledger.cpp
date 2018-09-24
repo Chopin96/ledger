@@ -9,17 +9,17 @@ class Ledger: public contract {
 	public:
 		Ledger(account_name s) :
 				contract(s), ledger(s, s) {
-			print("stdvtxledger v0.0.1")
+
 		}
 		using contract::contract;
 
 		int64_t getbalanceaccount(std::string account) {
-			amount = 0;
+			int amount = 0;
 			for (auto& item : ledger) {
 				if (account.compare(item.fromAccount) == 0) {
 					amount += amount;
 				}
-				if (account.compare(item.fromAccount) == 0) {
+				if (account.compare(item.toAccount) == 0) {
 					amount += amount;
 				}
 
@@ -27,17 +27,17 @@ class Ledger: public contract {
 			return amount;
 		}
 		uint64_t getbalancekey(std::string key) {
-			amount = 0;
+			int amount = 0;
 			for (auto& item : ledger) {
 				if (key.compare(item.sToKey) == 0) {
 					amount += amount;
 				}
-			if (account.compare(item.fromKey == 0) {
-						amount += amount;
-					}
-
+				if (key.compare(item.fromKey) == 0) {
+					amount += amount;
 				}
-				return amount;
+
+			}
+			return amount;
 		}
 		[[eosio::action]]
 		void rcrdtfr(account_name s, std::string fromaccount,
@@ -82,8 +82,8 @@ class Ledger: public contract {
 				//decrease with fromkey
 				print("Wallet to Wallet");
 				//check for funds
-				eosio_assert(getbalancekey(fromkey) >= amount,
-						"insufficient_funds");
+				//eosio_assert(getbalancekey(fromkey) >= amount,
+				//		"insufficient_funds");
 				ledger.emplace(get_self(), [&](auto& p)
 				{
 					p.key = ledger.available_primary_key();
@@ -93,7 +93,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 
 				});
@@ -107,7 +107,7 @@ class Ledger: public contract {
 					p.sToKey = tokey;
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 				});
 			}
@@ -116,8 +116,8 @@ class Ledger: public contract {
 				print("Account to Wallet");
 
 				//check for funds
-				eosio_assert(getbalance(fromaccount) >= amount,
-					"insufficient_funds");
+				//eosio_assert(getbalanceaccount(fromaccount) >= amount,
+				//"insufficient_funds");
 				//decrease with fromaccount
 				ledger.emplace(get_self(), [&](auto& p)
 				{
@@ -128,7 +128,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = negAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 
 				});
@@ -142,7 +142,7 @@ class Ledger: public contract {
 					p.sToKey = tokey;
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 
 				});
@@ -150,8 +150,7 @@ class Ledger: public contract {
 			//Wallet to account
 			else if (condition5) {
 				print("Wallet to account");
-				eosio_assert(getbalance(fromkey) >= amount,
-						"insufficient_funds");
+				eosio_assert(getbalancekey(fromkey) <= amount, "insufficient_funds");
 
 				//decrease with fromaccount
 				ledger.emplace(get_self(), [&](auto& p)
@@ -163,7 +162,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = fromkey;
 					p.amount = negAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 
 				});
@@ -177,7 +176,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 
 				});
@@ -185,7 +184,7 @@ class Ledger: public contract {
 			//Account to Account
 			else if (condition6) {
 				print("Account to Account");
-				eosio_assert(getbalance(fromaccount) >= amount, "insufficient_funds");
+				//eosio_assert(getbalanceaccount(fromaccount) >= amount, "insufficient_funds");
 
 				//decrease from account
 				ledger.emplace(get_self(), [&](auto& p)
@@ -197,7 +196,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = amount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 				});
 				//augment toaccount
@@ -210,7 +209,7 @@ class Ledger: public contract {
 					p.sToKey = "";
 					p.fromKey = "";
 					p.amount = posAmount;
-					p.comment = nonce;
+					p.comment = comment;
 					p.nonce = nonce;
 				});
 
@@ -218,25 +217,25 @@ class Ledger: public contract {
 
 		}
 
-		private:
+	private:
 
 		struct [[eosio::table]] entry {
-			account_name s;
-			uint64_t key = 0;
-			uint64_t Id = 0;
-			std::string sToKey;
-			std::string fromAccount;
-			std::string toAccount;
-			std::string fromKey;
-			int64_t amount;
-			std::string comment;
-			std::string nonce;
-			uint64_t primary_key() const {
-				return key;
-			}
-			uint64_t by_Id() const {
-				return Id;
-			}
+				account_name s;
+				uint64_t key = 0;
+				uint64_t Id = 0;
+				std::string sToKey;
+				std::string fromAccount;
+				std::string toAccount;
+				std::string fromKey;
+				int64_t amount;
+				std::string comment;
+				std::string nonce;
+				uint64_t primary_key() const {
+					return key;
+				}
+				uint64_t by_Id() const {
+					return Id;
+				}
 
 		};
 		typedef eosio::multi_index<N(entry), entry,
@@ -244,6 +243,6 @@ class Ledger: public contract {
 
 		ledgertable ledger;
 
-	};
+};
 
-	EOSIO_ABI( Ledger,(rcrdtfr))
+EOSIO_ABI( Ledger,(rcrdtfr))
