@@ -21,7 +21,8 @@ os.environ['CLEOS'] = "/usr/local/eosio/bin/cleos"
 class BlockChain():
     def __init__(self):
         #self.producer = "http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888"
-        self.producer = "http://39.108.231.157:30065"
+        #self.producer = "http://api.kylin.alohaeos.com"
+        self.producer = "http://127.0.0.1"
 class Account():
     def __init__(self):
         self.name = ""
@@ -68,179 +69,31 @@ class Order():
         self.contractAccountName = ""
 
 
-def setOwnerKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
-    key = out[13:]
-    key = key[:-67]
-    key2 = out[77:]
-    key2 = key2[:-1]
-    wallet.ownerPrivateKey = key
-    wallet.ownerPublicKey = key2
-    print('Owner keys set')
-    print(wallet.ownerPrivateKey)
-
-
-def setActiveKeys():
-    out = subprocess.check_output(["/usr/local/eosio/bin/cleos", "create", "key", "--to-console"])
-    key = out[13:]
-    key = key[:-67]
-    key2 = out[77:]
-    key2 = key2[:-1]
-    wallet.activePrivateKey = '5KfpCFGR8SBZ3At7oGTDcHgzXgCZRGV6hCT7DTfReYQ63gi3gQz'
-    wallet.activePublicKey = 'EOS8FhYPgnTXoSot5a16CxhcCSmaepvEY93D9WYgb16tB5QxAhDcc'
-    print('Active keys set')
-    print(wallet.activePrivateKey)
-
-
-def importKeys():
-    out = subprocess.check_output(
-        ['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.ownerPrivateKey])
-    out1 = subprocess.check_output(
-        ['/usr/local/eosio/bin/cleos', 'wallet', 'import', '-n', wallet.name, '--private-key', wallet.activePrivateKey])
-    wallet.erasePrivateKeys()
-    print('Keys imported to wallet')
-
-
-def createWallet(name):
-    walletDirectory = os.environ['HOME'] + '/eosio-wallet'
-    if not os.path.exists(walletDirectory):
-        os.makedirs(walletDirectory)
-    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'create', '-n', name, '--file', name])
-    print(str(out))
-	
-
 
 def setContractSteps():
     out = ''
     try:
-        out = subprocess.check_output(
-            [os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'contract', account.name, order.contract, '-p',
-             account.name])
-
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'contract', account.name, order.contract, '-p', account.name])
     except:
         out = 'Cannot set contract steps'
     print(str(out))
     print('set contract steps')
 
 def setupContract():
-    #out = subprocess.check_output(['rm', '-rf', os.environ['NODEOS_DATA']])
-    #flushWallets()
-    #createEosioWallet()
-    #wallet.name = 'syltest11111'
-    #createWallet('syltest11111')
-    #setActiveKeys()
-    #setOwnerKeys()
-    #importKeys()
-    #account.name = 'syltest11111'
-    #createAccount()
-    compileContract()
-    order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/'
-    setContractSteps()
-    object = '["syltest11111","vtxdistrib","", 364000000 , "", ""]'
-    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'syltest11111' + '@active'])
-    print(str(out))
-    print('****************************************************')
-    print('Get Balance vtxdistrib')
-    object = '["vtxdistrib", "",]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getblnc', object, '-p', 'syltest11111' + '@active'])
-    print(str(out))
-    
-
-
-def rcrdtrf():
-    object = '["syltest11111","vtxdistrib1","vtxdistrib",10000000, "", ""]'
-    out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'syltest11111' + '@active'])
-    print(str(out))
-
-
-def getrcrd():
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'getrcrd', '[1234]', '-p', 'syltest11111' + '@active'])
-    print(str(out))
-
-
-def syltest11111NullFromKey():
-    object = '["syltest11111","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    out = subprocess.check_output(
-        [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
-    print(str(out))
-
-
-def syltest11111MultipleEntries():
-    object = '["syltest11111","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 50]'
-    object2 = '["syltest11111","distribution","trust","", "EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", 51]'
-    out = subprocess.check_output(
-        [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object, '-p', account.name + '@active'])
-    print(str(out))
-    out = subprocess.check_output(
-        [os.environ['CLEOS'], 'push', 'action', account.name, 'rcrdtfr', object2, '-p', account.name + '@active'])
-    print(str(out))
-
-
-def createEosioWallet():
-    out = ''
-    try:
-        wallet.name = 'eosio'
-        createWallet('eosio')
-        setOwnerKeys()
-        setActiveKeys()
-        out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'eosio', '--private-key', '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'])
-    except:
-        out = 'could not create wallet'
-    print(str(out))
-
-
-def check_kill_process(pstring):
-    for line in os.popen("ps ax | grep " + pstring + " | grep -v grep"):
-        fields = line.split()
-        pid = fields[0]
-    if pid > 0:
-        os.kill(int(pid), signal.SIGKILL)
-
-
-def flushWallets():
-    rand = random.randint(1, 1000000)
-    try:
-        subprocess.check_output(
-            ['mv', os.environ['HOME'] + '/eosio-wallet/', os.environ['HOME'] + '/eosio-wallet.save' + str(rand)])
-        # check_kill_process(os.environ['EOS_KEOSD'])
-    except:
-        print('Could not move')
-
-
-
-
-def createAccount():
-    out = ''
-    try:
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'create', 'account', 'eosio', account.name, wallet.ownerPublicKey, wallet.activePublicKey, '-p', 'eosio'])
-    except:
-        out = 'Could not create account'
-    print(str(out))
-
-def unlockWallets():
-    try:	
-    	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'eosio', '--password', 'PW5JHYpoBnmhqng1ixyV1wz6a4Tu8mCUvwAdRyVE1otGupSRDWzBY'])
-    	out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'wallet', 'unlock', '-n', 'syltest11111', '--password', 'PW5JUTVUM8XyvC4dVPhhyJtb23yMneWJQpQ3n9F4uUk8HV2uFyL3T'])
-    except:
-    	out = "could not unlock wallet"
-    print("wallets already unlocked")	
-	
-def compileContract():
    
-    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/syltest11111.wasm' , os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/syltest11111.cpp' ])
-    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/syltest11111.wast' , os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/syltest11111.cpp' ])
-    out = subprocess.check_output(['/usr/local/eosio/bin/eosiocpp', '-g', os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/syltest11111.abi' , os.environ['HOME'] + '/eclipse-workspace/ledger/syltest11111/syltest11111.cpp' ])
+    compileContract()
+    order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger'
+    setContractSteps()
+    
+def compileContract():
+    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wasm' , os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.cpp', '--abigen' ])
+    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wast' , os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.cpp' ])
+    print(str(out))
 
 if __name__ == '__main__':
     account = Account()
-    wallet = Wallet()
-    blockchain = BlockChain()
     order = Order()
-    account.name = 'syltest11111'
+    account.name = 'stdvtxledger'
     setupContract()
-    #unlockWallets()
-    #rcrdtrf()
-    # syltest11111NullFromKey()
-    # syltest11111MultipleEntries()
-    #getrcrd()
+   
 
