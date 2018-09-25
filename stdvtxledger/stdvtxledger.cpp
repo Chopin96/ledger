@@ -149,8 +149,8 @@ class Ledger: public contract {
 			}
 			//Wallet to account
 			else if (condition5) {
-				print("Wallet to account");
-				eosio_assert(getbalancekey(fromkey) <= amount, "insufficient_funds");
+				print("Wallet to account-------------------------------------------");
+				//eosio_assert(getbalancekey(fromkey) >= amount, "insufficient_funds");
 
 				//decrease with fromaccount
 				ledger.emplace(get_self(), [&](auto& p)
@@ -195,7 +195,7 @@ class Ledger: public contract {
 					p.toAccount = "";
 					p.sToKey = "";
 					p.fromKey = "";
-					p.amount = amount;
+					p.amount = negAmount;
 					p.comment = comment;
 					p.nonce = nonce;
 				});

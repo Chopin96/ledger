@@ -21,8 +21,8 @@ os.environ['CLEOS'] = "/usr/local/eosio/bin/cleos"
 class BlockChain():
     def __init__(self):
         #self.producer = "http://ec2-35-183-119-153.ca-central-1.compute.amazonaws.com:8888"
-        #self.producer = "http://api.kylin.alohaeos.com"
-        self.producer = "http://127.0.0.1"
+        self.producer = "http://api.kylin.alohaeos.com"
+        #self.producer = "http://127.0.0.1"
 class Account():
     def __init__(self):
         self.name = ""
