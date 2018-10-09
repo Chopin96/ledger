@@ -89,8 +89,8 @@ def setOwnerKeys():
 def setContractSteps():
     out = ''
     try:
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'code', account.name,  os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wasm'])
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'abi', account.name,  os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.abi'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'code', account.name, '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.wasm'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'abi', account.name,  '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.abi'])
     except:
         out = 'Cannot set contract steps'
     print(str(out))
@@ -99,12 +99,12 @@ def setContractSteps():
 
 def setupContract():   
     compileContract()
-    order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger'
+    order.contract = '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger
     setContractSteps()
 
     
 def compileContract():
-    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wasm' , os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.cpp', '--abigen' ])
+    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.wasm' , '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.cpp', '--abigen' ])
     print(str(out))
 
 
@@ -134,7 +134,7 @@ def openWallet():
     
 def unlockWallet():
     cwd = os.getcwd()
-    path = cwd + '/stdvtxledger'
+    path = cwd + '/tstvtxledger'
     file = open(path, 'r') 
     pswd = file.read() 
     pswd = pswd[1:]
@@ -156,15 +156,15 @@ if __name__ == '__main__':
     order = Order()
     wallet = Wallet()
     blockchain = BlockChain()     
-    wallet.name = 'stdvtxledger'
+    wallet.name = 'tstvtxledger'
     wallet.password = 'PW5JvkjBKhVbXmm72RumjquPG43PRiMjPKAmVBMSXRRRbsNh9pnwT'
     openWallet()
     unlockWallet()
     print('************************************************************************************************************************************************************')                                                                                                                            
     #account to wallet
-    account.name = 'stdvtxledger'
-    object = '["stdvtxledger", "vtxdistrib", "vtxtrust", 100, "", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test", "nonce"]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'stdvtxledger' + '@active'])
+    account.name = 'tstvtxledger'
+    object = '["tstvtxledger", "vtxdistrib", "vtxtrust", 100, "", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test", "nonce"]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'tstvtxledger' + '@active'])
     print('************************************************************************************************************************************************************')
     lockWallet()
     

@@ -43,17 +43,17 @@ class Account():
 if __name__ == '__main__':
     account = Account()
     blockchain = BlockChain()
-    account.name = 'stdvtxledger'
+    account.name = 'tstvtxledger'
     # init 
-    object = '["stdvtxledger", "vtxdistrib", "vtxtrust", 100, "", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test", "nonce"]'
-    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'stdvtxledger' + '@active'])
+    object = '["tstvtxledger", "vtxdistrib", "vtxtrust", 100, "", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test", "nonce"]'
+    out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'tstvtxledger' + '@active'])
     print('************************************************************************************************************************************************************')
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'get', 'table', account.name, account.name, 'entry', '-l', '10000' ])
     print(out)
     
     print('************************************************************************************************************************************************************')
-    #    object = '["stdvtxledger", "vtxdistrib", "vtxtrust", 10, "EOS8HCdRC79RwDxdtus8rs7hpcz4gavgxqhKY7G7DZQLWbtJArziG", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test","nonce"]'
-    # cleos --url http://api.kylin.alohaeos.com push stdvtxledger rcrdtfr '["stdvtxledger", "vtxdistrib", "vtxtrust", 10,"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "", "test", "nonce"]' -p stdvtxledger@active
+    #    object = '["tstvtxledger", "vtxdistrib", "vtxtrust", 10, "EOS8HCdRC79RwDxdtus8rs7hpcz4gavgxqhKY7G7DZQLWbtJArziG", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test","nonce"]'
+    # cleos --url http://api.kylin.alohaeos.com push tstvtxledger rcrdtfr '["tstvtxledger", "vtxdistrib", "vtxtrust", 10,"EOS62L2r4FqnCbHAspPS3KBByGa728G3UDYxGkTY15mad97M4JhzN", "", "test", "nonce"]' -p tstvtxledger@active
 #     print(str(out))
 #     print('************************************************************************************************************************************************************')
 #     print("                                                                                                                                                            ");  
@@ -63,5 +63,5 @@ if __name__ == '__main__':
 #     print('************************************************************************************************************************************************************')
 #     print('test')
 #     
-   # out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'test', '[]', '-p', 'stdvtxledger' + '@active'])
+   # out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'test', '[]', '-p', 'tstvtxledger' + '@active'])
    # print(str(out))
