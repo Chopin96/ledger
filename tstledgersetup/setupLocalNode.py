@@ -9,7 +9,7 @@ import random
 import psutil
 
 home = os.environ['HOME']
-os.environ['EOS_SOURCE'] = home + "/eos"
+os.environ['EOS_SOURCE'] = '/mnt/c/Users/xuand/Documents/Eos/eos'
 if platform.system() == 'Darwin':
     os.environ['NODEOS_DATA'] = home + "/Library/Application\ Support/eosio/nodeos/data"
 elif platform.system() == 'Linux':
@@ -94,10 +94,10 @@ def createEosioWallet():
     print(str(out))        
 
      
-def createStdVtxLedgerWallet():
+def createtstvtxledgerWallet():
     createWallet()
-    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'stdvtxledger', '--private-key', '5J9A3VhpRmkyqm1NmiTJW7MU34c7yVEF8Ep3rbSYR7r8hTHJrxD'])
-    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'stdvtxledger', '--private-key', '5KdakA6MZJeawKPECMgpG1Q2dffSt9BNSp5QwGbEKbeva7UaRAT'])
+    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'tstvtxledger', '--private-key', '5J9A3VhpRmkyqm1NmiTJW7MU34c7yVEF8Ep3rbSYR7r8hTHJrxD'])
+    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'tstvtxledger', '--private-key', '5KdakA6MZJeawKPECMgpG1Q2dffSt9BNSp5QwGbEKbeva7UaRAT'])
     print(str(out))        
 
 
@@ -107,8 +107,8 @@ def setContractSteps():
         #cleos --url http://api.kylin.alohaeos.com  set code eostitandocs eostitandocs.wasm
         #cleos --url http://api.kylin.alohaeos.com  set abi eostitandocs eostitandocs.abi
 
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'code', account.name,  os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wasm'])
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'abi', account.name,  os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.abi'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'code', account.name,  '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.wasm'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'abi', account.name,  '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.abi'])
     except:
         out = 'Cannot set contract steps'
     print(str(out))
@@ -117,13 +117,13 @@ def setContractSteps():
 
 def setupContract():   
     compileContract()
-    order.contract = os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger'
+    order.contract = '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger'
     setContractSteps()
 
     
 def compileContract():
-    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wasm' , os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.cpp', '--abigen' ])
-    #out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.wast' , os.environ['HOME'] + '/eclipse-workspace/ledger/stdvtxledger/stdvtxledger.cpp' ])
+    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.wasm' , '/mnt/c/Users/xuand/Documents/ledger/tstvtxledger/tstvtxledger.cpp', '--abigen' ])
+    #out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/tstvtxledger/tstvtxledger.wast' , os.environ['HOME'] + '/eclipse-workspace/ledger/tstvtxledger/tstvtxledger.cpp' ])
     print(str(out))
 
 
@@ -150,21 +150,21 @@ def killKeosd():
 if __name__ == '__main__':
     account = Account()
     order = Order()
-    wallet = Wallet();
+    wallet = Wallet()
     blockchain = BlockChain()     
     killKeosd()
     out = subprocess.check_output(['rm', '-rf', os.environ['HOME'] + '/eosio-wallet/eosio.wallet'])
     print(out)
     wallet.name = 'eosio'
     createEosioWallet()
-    out = subprocess.check_output(['rm', '-rf', os.environ['HOME'] + '/eosio-wallet/stdvtxledger.wallet'])
+    out = subprocess.check_output(['rm', '-rf', os.environ['HOME'] + '/eosio-wallet/tstvtxledger.wallet'])
     print(out)
-    wallet.name = 'stdvtxledger'
-    createStdVtxLedgerWallet()
-    account.name = 'stdvtxledger'
+    wallet.name = 'tstvtxledger'
+    createtstvtxledgerWallet()
+    account.name = 'tstvtxledger'
     compileContract()
     createAccount()
     setupContract()
-    #object = f'["stdvtxledger", "godaccount", "vtxdistrib", 364000000, "", "", "test","nonce"]'
-    #out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'stdvtxledger' + '@active'])
+    #object = f'["tstvtxledger", "godaccount", "vtxdistrib", 364000000, "", "", "test","nonce"]'
+    #out = subprocess.check_output([os.environ['CLEOS'],'--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'tstvtxledger' + '@active'])
 
