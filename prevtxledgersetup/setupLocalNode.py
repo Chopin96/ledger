@@ -9,7 +9,7 @@ import random
 import psutil
 
 home = os.environ['HOME']
-os.environ['EOS_SOURCE'] = '/mnt/c/Users/xuand/Documents/Eos/eos'
+os.environ['EOS_SOURCE'] = '~/eos'
 if platform.system() == 'Darwin':
     os.environ['NODEOS_DATA'] = home + "/Library/Application\ Support/eosio/nodeos/data"
 elif platform.system() == 'Linux':
@@ -96,8 +96,8 @@ def createEosioWallet():
      
 def createprevtxledgerWallet():
     createWallet()
-    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'prevtxledger', '--private-key', '5J9A3VhpRmkyqm1NmiTJW7MU34c7yVEF8Ep3rbSYR7r8hTHJrxD'])
-    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'prevtxledger', '--private-key', '5KdakA6MZJeawKPECMgpG1Q2dffSt9BNSp5QwGbEKbeva7UaRAT'])
+    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'prevtxledger', '--private-key', '5K1H6fitL2LiXioN1VwSFLWKzbguPX8MVRwbzGw5Ayaj3S2JUKh'])
+    out = subprocess.check_output([os.environ['CLEOS'], 'wallet', 'import', '-n', 'prevtxledger', '--private-key', '5JZe18WwRETwqrB3GzoWsw3gNoLR5X9qrhrs7y7kVbk6hDs4Vgf'])
     print(str(out))        
 
 
@@ -107,8 +107,8 @@ def setContractSteps():
         #cleos --url http://api.kylin.alohaeos.com  set code eostitandocs eostitandocs.wasm
         #cleos --url http://api.kylin.alohaeos.com  set abi eostitandocs eostitandocs.abi
 
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'code', account.name,  '/mnt/c/Users/xuand/Documents/ledger/prevtxledger/prevtxledger.wasm'])
-        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'abi', account.name,  '/mnt/c/Users/xuand/Documents/ledger/prevtxledger/prevtxledger.abi'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'code', account.name,  '/Users/sylvain/eclipse-workspace/ledger/prevtxledger/prevtxledger.wasm'])
+        out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'set', 'abi', account.name,  '/Users/sylvain/eclipse-workspace/ledger/prevtxledger/prevtxledger.abi'])
     except:
         out = 'Cannot set contract steps'
     print(str(out))
@@ -117,12 +117,12 @@ def setContractSteps():
 
 def setupContract():   
     compileContract()
-    order.contract = '/mnt/c/Users/xuand/Documents/ledger/prevtxledger'
+    order.contract = '~/eclipse-workspace/ledger/prevtxledger'
     setContractSteps()
 
     
 def compileContract():
-    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', '/mnt/c/Users/xuand/Documents/ledger/prevtxledger/prevtxledger.wasm' , '/mnt/c/Users/xuand/Documents/ledger/prevtxledger/prevtxledger.cpp', '--abigen' ])
+    out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', '/Users/sylvain/eclipse-workspace/ledger/prevtxledger/prevtxledger.wasm' , '/Users/sylvain/eclipse-workspace/ledger/prevtxledger/prevtxledger.cpp', '--abigen' ])
     #out = subprocess.check_output(['/usr/local/eosio.cdt/bin/eosio-cpp', '-o', os.environ['HOME'] + '/eclipse-workspace/ledger/prevtxledger/prevtxledger.wast' , os.environ['HOME'] + '/eclipse-workspace/ledger/prevtxledger/prevtxledger.cpp' ])
     print(str(out))
 

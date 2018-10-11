@@ -45,7 +45,7 @@ if __name__ == '__main__':
     blockchain = BlockChain()
     account.name = 'prevtxledger'
     # init 
-    object = '["prevtxledger", "vtxdistrib", "vtxtrust", 100, "", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test", "nonce"]'
+    object = '[vtxdistrib", "vtxtrust", 100, "", "EOS6EcERTUvtafcLMtrKycWF4JX5tFHnD7d9TPfyF1pdh6tgiWPpf", "test", "nonce"]'
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'push', 'action', account.name, 'rcrdtfr', object, '-p', 'prevtxledger' + '@active'])
     print('************************************************************************************************************************************************************')
     out = subprocess.check_output([os.environ['CLEOS'], '--url', blockchain.producer, 'get', 'table', account.name, account.name, 'entry', '-l', '10000' ])
